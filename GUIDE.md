@@ -20,7 +20,7 @@ Checkpointing is on. Use `/restore` to undo any file change.
 
 **Skills activate automatically.** If you ask about BigQuery and the bigquery skill is installed, it loads. Same for Python and Excel. No manual activation.
 
-**Queries are managed.** Write → test → show you → confirm → save. Every execution is logged. Your query library lives in `queries/`.
+**Queries are managed.** Write → test → show you → confirm → save. Every execution is logged. Your query library lives in `output/queries/`.
 
 **Files are organized.** Strict folder structure. No scratch sprawl. `output/code/` for scripts, `output/reports/` for analysis, `output/data/` for exports. Pre-write checkpoint forces Gemini to verify the path before every write.
 
@@ -47,17 +47,18 @@ PREFERENCES.md         Personal preferences + workflow overrides
 .gitignore             Protects credentials and outputs from git
 
 context/               Reference files — READ-ONLY, auto-loaded
-queries/               SQL query library — one .sql per query
 
 .gemini/
   commands/            /start, /setup, /session:save, /context:update,
                        /version, /info
   skills/              Skills that activate automatically
 
-output/
+output/                Workspace — everything Gemini produces
+  queries/             SQL query library — one .sql per query
   code/                Scripts (.py, .js, .sh, .ipynb, configs)
   reports/             Analysis, docs (.md)
   data/                Exports (.csv, .json, .xlsx, .parquet)
+  temp/                Throwaway test files — auto-wiped at session end
   audit-log.md         Structured audit trail
   session-log.md       Narrative task log
   query-log.md         Query execution log
@@ -81,7 +82,7 @@ output/
 ## Tips
 
 - **`context/` is your library.** Drop schemas, docs, specs — auto-loaded, READ-ONLY.
-- **`queries/` is your query library.** One `.sql` per query, iterated in place, execution logged.
+- **`output/queries/` is your query library.** One `.sql` per query, iterated in place, execution logged.
 - **`PREFERENCES.md` is your customization file.** Tone, style, habits, plus workflow overrides.
 - **`/memory add` for critical facts.** Memory survives compression. Chat history doesn't.
 - **`/context:update` before closing.** One minute now saves re-explaining next session.

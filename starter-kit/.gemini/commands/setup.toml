@@ -5,7 +5,7 @@ The user wants to rebuild their project context.
 Scan everything:
   - Read every file in context/
   - Read .env.example for available connections (NEVER read .env itself)
-  - Check queries/ for saved SQL
+  - Check output/queries/ for saved SQL
   - Check .gemini/skills/ for available skills
   - Look at project files in the root (package.json, requirements.txt, docker-compose, etc.)
 

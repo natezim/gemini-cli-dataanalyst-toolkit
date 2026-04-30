@@ -36,7 +36,7 @@ Read-only by default. Classify every action:
 
 ## Query lifecycle
 
-Queries live in `./queries/` as `.sql` files. One per query, iterated in place.
+Queries live in `./output/queries/` as `.sql` files. One per query, iterated in place.
 Include a comment header: purpose, target, date last modified.
 
 Steps:

@@ -17,7 +17,7 @@ Commands:
 
 Workspace:
   context/ — reference files, READ-ONLY, auto-loaded every session
-  queries/ — your SQL query library
+  output/queries/ — your SQL query library
   output/code/ — scripts, code
   output/reports/ — analyses, docs
   output/data/ — exports (CSVs, JSON)

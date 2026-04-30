@@ -15,6 +15,7 @@ output/query-log.md
 output/audit-log.md
 output/*_handoff.md
 output/prompts/
+output/temp/
 
 # Dependencies
 node_modules/

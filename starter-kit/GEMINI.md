@@ -10,18 +10,21 @@ Before writing ANY file: STATE the path, CONFIRM it matches the table, CHECK if 
 
 | File type | Folder |
 |---|---|
-| `.sql` | `./queries/` |
+| `.sql` (queries) | `./output/queries/` |
 | `.py`, `.js`, `.sh`, `.ipynb`, `.yaml`, `.toml` | `./output/code/` |
 | `.md` (reports, docs) | `./output/reports/` |
 | `.csv`, `.json` (data), `.xlsx`, `.parquet` | `./output/data/` |
+| Throwaway test/debug files | `./output/temp/` (auto-deleted at session end) |
 | Logs | `./output/session-log.md`, `query-log.md`, `audit-log.md` |
 | Handoff docs | `./output/<date>_handoff.md` |
 | Chat prompts | `./output/prompts/<date>_prompts.md` |
 
-Project root is OFF LIMITS. No scratch/, temp/, or ad-hoc folders. If a file doesn't fit, ASK.
+Project root is OFF LIMITS for new files. If a file doesn't fit any category, ASK.
 `./context/` is READ-ONLY — copy to `output/code/` to work with content. Originals stay pristine.
 ONE file per deliverable during work. Iterate in place. Versions auto-managed at `/session:save`.
-For one-off checks, run inline via shell — do NOT create a file.
+
+For temp/test files: use `./output/temp/`. It gets wiped at session end automatically — no review.
+For one-off shell checks: run inline, no file needed.
 
 ## SAVE AS YOU GO
 

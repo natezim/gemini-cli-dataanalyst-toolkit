@@ -27,6 +27,7 @@ output/audit-log.md
 output/data/
 output/*_handoff.md
 output/prompts/
+output/temp/
 
 # Prevent credentials from being dropped into context/
 context/*.env

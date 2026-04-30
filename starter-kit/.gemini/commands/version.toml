@@ -3,7 +3,7 @@ prompt = """
 The user wants to snapshot a file as a version mid-session.
 
 If they didn't specify a filename, ask: "Which file should I version?"
-The file must be in ./output/code/, ./output/reports/, or ./queries/.
+The file must be in ./output/code/, ./output/reports/, or ./output/queries/.
 
 Once you have the filename:
 

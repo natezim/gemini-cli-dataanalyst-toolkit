@@ -4,7 +4,7 @@ The session is ending. Do these in order. Each step must complete before the nex
 
 --- 1. VERSIONING ---
 
-For files in ./output/code/, ./output/reports/, ./queries/ that EXISTED at session start
+For files in ./output/code/, ./output/reports/, ./output/queries/ that EXISTED at session start
 AND were modified this session:
 
   Rotate existing version snapshots:
@@ -19,10 +19,16 @@ are those whose mtime is later than the session start timestamp.
 
 Tell the user which files were versioned, briefly.
 
---- 2. CLEANUP REVIEW ---
+--- 2. WIPE TEMP ---
 
-List files that are NEW this session (didn't exist at session start), excluding logs and
-audit files. Excluded paths: session-log.md, query-log.md, audit-log.md, prompts/, *_handoff.md.
+Delete every file in ./output/temp/ — no prompt, no review. Audit log a single
+DELETE entry summarizing the wipe (e.g., "wiped 4 files from output/temp/").
+Never wipe ./output/temp/ itself, just its contents.
+
+--- 3. CLEANUP REVIEW ---
+
+List files that are NEW this session (didn't exist at session start), excluding:
+session-log.md, query-log.md, audit-log.md, prompts/, *_handoff.md, anything in temp/.
 
 Ask the user: "These files were created this session. Keep all, delete all, or review one-by-one?"
 List each file with a one-line description.
@@ -32,7 +38,7 @@ If user picks "review one-by-one", iterate per file: keep / delete.
 
 Apply the choice. Audit log every deletion.
 
---- 3. CHAT LOG ---
+--- 4. CHAT LOG ---
 
 Save the user's prompts from this session to ./output/prompts/<YYYY-MM-DD>_prompts.md.
 
@@ -53,7 +59,7 @@ Format:
 
 If the prompts file already exists for today, append to it (don't overwrite).
 
---- 4. HANDOFF DOC ---
+--- 5. HANDOFF DOC ---
 
 Write ./output/<YYYY-MM-DD>_handoff.md:
 
@@ -68,21 +74,21 @@ Write ./output/<YYYY-MM-DD>_handoff.md:
   ### Carry Forward
   <critical context for the next session>
 
---- 5. MEMORY CHECK ---
+--- 6. MEMORY CHECK ---
 
 Run /memory show. If anything critical from this session is not yet persisted, /memory add it.
 
---- 6. CONTEXT UPDATE ---
+--- 7. CONTEXT UPDATE ---
 
 Ask: "Anything worth adding to CONTEXT.md permanently before we close?"
 If yes, run /context:update.
 
---- 7. FINAL AUDIT ENTRY ---
+--- 8. FINAL AUDIT ENTRY ---
 
 Append to ./output/audit-log.md:
-  [YYYY-MM-DD HH:MM:SS] | <user> | SESSION-END | files_versioned=<n>, files_kept=<n>, files_deleted=<n> | OK
+  [YYYY-MM-DD HH:MM:SS] | <user> | SESSION-END | files_versioned=<n>, files_kept=<n>, files_deleted=<n>, temp_wiped=<n> | OK
 
---- 8. CONFIRM ---
+--- 9. CONFIRM ---
 
 Say: "Session closed."
 """

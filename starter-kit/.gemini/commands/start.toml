@@ -7,8 +7,10 @@ prompt = """
    Remember this username for the entire session — every audit log entry uses it.
 
 2. Snapshot file list (used by /session:save to detect new vs modified files):
-   - List all files in ./output/code/, ./output/reports/, ./queries/.
+   - List all files in ./output/code/, ./output/reports/, ./output/queries/.
    - Save this list to /memory or hold in working state.
+
+   Also: empty ./output/temp/ if anything's left from a prior crashed session.
 
 3. Append session-start entry to ./output/audit-log.md:
    [YYYY-MM-DD HH:MM:SS] | <user> | SESSION-START | <working_dir> | OK
@@ -23,7 +25,7 @@ Otherwise, run RETURNING SESSION below.
 Scan everything that exists:
   - Read every file in context/ (READ-ONLY — never modify)
   - Read .env.example for available connections (NEVER read .env itself)
-  - Check queries/ for saved SQL
+  - Check output/queries/ for saved SQL
   - Check .gemini/skills/ for available skills
   - Look at any project files in the root (package.json, requirements.txt, docker-compose, etc.)
 
@@ -51,7 +53,7 @@ Then ask: "What are we working on?"
 
 --- RETURNING SESSION ---
 
-Load silently: CONTEXT.md, context/ (READ-ONLY), queries/, skills/, session-log, /memory show.
+Load silently: CONTEXT.md, context/ (READ-ONLY), output/queries/, skills/, session-log, /memory show.
 Check .env.example for available connections (NEVER read .env).
 
 Check for the most recent handoff doc in output/ (files matching *_handoff.md).
