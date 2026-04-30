@@ -1,0 +1,21 @@
+description = "Snapshot a file as a version (v1/v2/v3) — manual mid-session version bump"
+prompt = """
+The user wants to snapshot a file as a version mid-session.
+
+If they didn't specify a filename, ask: "Which file should I version?"
+The file must be in ./output/code/, ./output/reports/, or ./queries/.
+
+Once you have the filename:
+
+1. Rotate existing version snapshots:
+   - If <name>_v3.<ext> exists, delete it.
+   - If <name>_v2.<ext> exists, rename to <name>_v3.<ext>.
+   - If <name>_v1.<ext> exists, rename to <name>_v2.<ext>.
+
+2. Copy the current file to <name>_v1.<ext>.
+
+3. Append to ./output/audit-log.md:
+   [YYYY-MM-DD HH:MM:SS] | <user> | VERSION | <filepath> -> <name>_v1.<ext> | OK
+
+4. Confirm: "Snapshotted <name>.<ext> to <name>_v1.<ext>. Live file unchanged."
+"""

@@ -1,0 +1,68 @@
+description = "Start a session — captures user identity, snapshots files, loads context"
+prompt = """
+--- SESSION START SETUP (always run first) ---
+
+1. Identify the user: parse the working directory path. Extract the username from
+   patterns like `C:\\Users\\<username>\\...`. If unclear, fall back to %USERNAME%.
+   Remember this username for the entire session — every audit log entry uses it.
+
+2. Snapshot file list (used by /session:save to detect new vs modified files):
+   - List all files in ./output/code/, ./output/reports/, ./queries/.
+   - Save this list to /memory or hold in working state.
+
+3. Append session-start entry to ./output/audit-log.md:
+   [YYYY-MM-DD HH:MM:SS] | <user> | SESSION-START | <working_dir> | OK
+
+--- THEN check CONTEXT.md ---
+
+If CONTEXT.md is empty or just placeholders, run FIRST-TIME SETUP below.
+Otherwise, run RETURNING SESSION below.
+
+--- FIRST-TIME SETUP ---
+
+Scan everything that exists:
+  - Read every file in context/ (READ-ONLY — never modify)
+  - Read .env.example for available connections (NEVER read .env itself)
+  - Check queries/ for saved SQL
+  - Check .gemini/skills/ for available skills
+  - Look at any project files in the root (package.json, requirements.txt, docker-compose, etc.)
+
+Tell the user what you found: "Here's what I can see about this project:" followed by a summary.
+
+Then YOU MUST ASK QUESTIONS. Reading files is not enough — you need the user's input.
+Do not write CONTEXT.md until you have asked AND received answers.
+
+The flow is: show what you found → ask about what's unclear or missing → confirm assumptions.
+
+Generate 3-5 questions. Each must reference what you found and ask the user to confirm, correct,
+or fill in gaps. Examples:
+  - "I see X in the files — is that correct, or has it changed?"
+  - "I see DATABASE_URL and BIGQUERY_PROJECT in .env.example — which do you use most?"
+  - "I don't see anything about [topic] — can you tell me about that?"
+
+Ask one question at a time. Wait for the answer before asking the next.
+You must ask at least 3 questions. Files alone never give the full picture.
+
+After getting answers, write CONTEXT.md with whatever sections make sense.
+Show a summary and ask: "Does this capture it? Anything wrong or missing?"
+
+After context is confirmed, run /info to show the user everything available.
+Then ask: "What are we working on?"
+
+--- RETURNING SESSION ---
+
+Load silently: CONTEXT.md, context/ (READ-ONLY), queries/, skills/, session-log, /memory show.
+Check .env.example for available connections (NEVER read .env).
+
+Check for the most recent handoff doc in output/ (files matching *_handoff.md).
+
+If a handoff exists, read it and give a status that includes:
+  - What was done last session
+  - What was left open/unfinished
+  - What was flagged to carry forward
+  Then ask: "Want to pick up where you left off, or start something new?"
+
+If no handoff exists, give a short status and ask: "What are we working on?"
+
+Say: "Ready."
+"""

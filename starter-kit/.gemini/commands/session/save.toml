@@ -1,0 +1,88 @@
+description = "End of session — versioning, cleanup review, chat log, handoff doc"
+prompt = """
+The session is ending. Do these in order. Each step must complete before the next.
+
+--- 1. VERSIONING ---
+
+For files in ./output/code/, ./output/reports/, ./queries/ that EXISTED at session start
+AND were modified this session:
+
+  Rotate existing version snapshots:
+    - If <name>_v3.<ext> exists, delete it (oldest goes).
+    - If <name>_v2.<ext> exists, rename to <name>_v3.<ext>.
+    - If <name>_v1.<ext> exists, rename to <name>_v2.<ext>.
+  Then snapshot the current file:
+    - Copy <name>.<ext> to <name>_v1.<ext>.
+
+Detection: use the file list snapshotted by /start. Files modified in this session
+are those whose mtime is later than the session start timestamp.
+
+Tell the user which files were versioned, briefly.
+
+--- 2. CLEANUP REVIEW ---
+
+List files that are NEW this session (didn't exist at session start), excluding logs and
+audit files. Excluded paths: session-log.md, query-log.md, audit-log.md, prompts/, *_handoff.md.
+
+Ask the user: "These files were created this session. Keep all, delete all, or review one-by-one?"
+List each file with a one-line description.
+
+Default if user just confirms: keep all.
+If user picks "review one-by-one", iterate per file: keep / delete.
+
+Apply the choice. Audit log every deletion.
+
+--- 3. CHAT LOG ---
+
+Save the user's prompts from this session to ./output/prompts/<YYYY-MM-DD>_prompts.md.
+
+SKIP a prompt if BOTH:
+  - Under 5 words.
+  - Matches confirmation pattern (yes, ok, okay, sure, go, go ahead, proceed,
+    continue, do it, do that, fine, good, looks good, sounds good, yep, yeah, k,
+    thanks, thank you).
+
+Capture everything else verbatim with a HH:MM:SS timestamp.
+
+Format:
+
+  # Prompts — YYYY-MM-DD — <user>
+
+  [HH:MM:SS] <prompt verbatim>
+  [HH:MM:SS] <prompt verbatim>
+
+If the prompts file already exists for today, append to it (don't overwrite).
+
+--- 4. HANDOFF DOC ---
+
+Write ./output/<YYYY-MM-DD>_handoff.md:
+
+  ## Handoff — <DATE TIME>
+
+  ### What We Did
+  -
+  ### Open / Unfinished
+  -
+  ### Key Learnings
+  -
+  ### Carry Forward
+  <critical context for the next session>
+
+--- 5. MEMORY CHECK ---
+
+Run /memory show. If anything critical from this session is not yet persisted, /memory add it.
+
+--- 6. CONTEXT UPDATE ---
+
+Ask: "Anything worth adding to CONTEXT.md permanently before we close?"
+If yes, run /context:update.
+
+--- 7. FINAL AUDIT ENTRY ---
+
+Append to ./output/audit-log.md:
+  [YYYY-MM-DD HH:MM:SS] | <user> | SESSION-END | files_versioned=<n>, files_kept=<n>, files_deleted=<n> | OK
+
+--- 8. CONFIRM ---
+
+Say: "Session closed."
+"""

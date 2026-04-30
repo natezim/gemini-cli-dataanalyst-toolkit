@@ -1,0 +1,33 @@
+# Credentials — NEVER commit
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Output — may contain PII, query results, sensitive data
+output/data/
+output/session-log.md
+output/query-log.md
+output/audit-log.md
+output/*_handoff.md
+output/prompts/
+
+# Dependencies
+node_modules/
+vendor/
+.venv/
+__pycache__/
+
+# Build
+dist/
+build/
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

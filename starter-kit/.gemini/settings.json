@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    },
+    "sessionRetention": {
+      "enabled": true,
+      "maxAge": "7d",
+      "maxCount": 10
+    },
+    "plan": {
+      "enabled": false
+    }
+  },
+  "context": {
+    "fileName": ["GEMINI.md"],
+    "includeDirectories": ["context"]
+  },
+  "model": {
+    "compressionThreshold": 0.4
+  }
+}

@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+vendor/
+.venv/
+__pycache__/
+
+# Build output
+dist/
+build/
+*.pyc
+*.class
+
+# Secrets and credentials — never expose to context
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Logs and data exports — may contain PII, shouldn't auto-load
+output/session-log.md
+output/query-log.md
+output/audit-log.md
+output/data/
+output/*_handoff.md
+output/prompts/
+
+# Prevent credentials from being dropped into context/
+context/*.env
+context/*.pem
+context/*.key
+context/*.json
+
+# Large files unlikely to be useful as context
+*.log
+*.zip
+*.tar.gz
+*.parquet
+*.avro
+
+# OS and IDE artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
