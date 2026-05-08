@@ -35,6 +35,7 @@ Subagents (invoke with @name — runs in an isolated context window):
     @codebase_investigator — deep file/dependency tracing
     @cli_help — Gemini CLI questions
   Custom (read-only, parallel-safe):
+    @solution-designer   — thinking partner: brainstorm, decompose, weigh tradeoffs
     @query-validator     — SQL syntax + dry-run cost check before running
     @schema-explorer     — answers schema questions from context/ without dumping DDL
     @data-profiler       — shape/nulls/cardinality on a dataset, scripts in temp/
