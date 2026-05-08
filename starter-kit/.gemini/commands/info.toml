@@ -35,11 +35,15 @@ Subagents (invoke with @name — runs in an isolated context window):
     @codebase_investigator — deep file/dependency tracing
     @cli_help — Gemini CLI questions
   Custom (read-only, parallel-safe):
-    @query-validator — SQL syntax + dry-run cost check before running
-    @schema-explorer — answers schema questions from context/ without dumping DDL
-    @data-profiler — shape/nulls/cardinality on a dataset, scripts in temp/
+    @query-validator     — SQL syntax + dry-run cost check before running
+    @schema-explorer     — answers schema questions from context/ without dumping DDL
+    @data-profiler       — shape/nulls/cardinality on a dataset, scripts in temp/
+    @stats-advisor       — recommends statistical method, assumptions, library calls
+    @sas-migrator        — translates SAS DATA/PROC/macros to Python
+    @excel-reviewer      — Excel formulas, dynamic arrays, Power Pivot review
+    @powerquery-reviewer — M language review (Excel + Power BI), query folding
   Custom (write-scoped, sequential):
-    @report-drafter — writes markdown reports to output/reports/ only
+    @report-drafter      — writes markdown reports to output/reports/ only
 
 Skills (copy from the repo's skills/ folder into .gemini/skills/ — only installed skills are active):
   python/ — Data analysis, pandas/NumPy, scikit-learn, visualization, testing
