@@ -33,7 +33,7 @@ Skills (copy from the repo's skills/ folder into .gemini/skills/ — only instal
   excel/ — Formulas, dynamic arrays, Power Query, Power Pivot/DAX"
 
 How it works:
-  I test everything before handing it back. I log every task and query automatically.
-  I ask before doing anything risky. I never touch production without explicit approval.
-  If I'm unsure about anything, I'll ask."
+  I test before handing back. State changes (writes, exec, queries) are logged silently.
+  I ask before risky work. I never touch production without explicit approval.
+  /restore (built-in) reverts any file change. /memory (built-in) persists facts."
 """

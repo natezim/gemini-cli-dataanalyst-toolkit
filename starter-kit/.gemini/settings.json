@@ -9,5 +9,5 @@
     "fileName": ["GEMINI.md"],
     "includeDirectories": ["context"]
   },
-  "model": { "compressionThreshold": 0.4 }
+  "model": { "compressionThreshold": 0.7 }
 }

@@ -1,70 +1,58 @@
 description = "Start a session — captures user identity, snapshots files, loads context"
 prompt = """
---- SESSION START SETUP (always run first) ---
+--- SESSION START (always run first, silent) ---
 
 1. Identify the user: parse the working directory path. Extract the username from
-   patterns like `C:\\Users\\<username>\\...`. If unclear, fall back to %USERNAME%.
-   Remember this username for the entire session — every audit log entry uses it.
+   `C:\\Users\\<username>\\...`. If unclear, fall back to %USERNAME%. Hold this in
+   working state for the session — every audit log entry uses it.
 
-2. Snapshot file list (used by /session:save to detect new vs modified files):
-   - List all files in ./output/code/, ./output/reports/, ./output/queries/.
-   - Save this list to /memory or hold in working state.
+2. Snapshot file list (used by /session:save to detect modified files):
+   List files in ./output/code/, ./output/reports/, ./output/queries/ and hold in
+   working state. Do NOT write this to /memory — it's transient.
 
-   Also: empty ./output/temp/ if anything's left from a prior crashed session.
+3. If anything is left in ./output/temp/ from a prior crashed session, empty it.
 
-3. Append session-start entry to ./output/audit-log.md:
-   [YYYY-MM-DD HH:MM:SS] | <user> | SESSION-START | <working_dir> | OK
+(No audit log entry for session start — session boundaries are not state changes.)
 
 --- THEN check CONTEXT.md ---
 
-If CONTEXT.md is empty or just placeholders, run FIRST-TIME SETUP below.
-Otherwise, run RETURNING SESSION below.
+Empty or placeholders → run FIRST-TIME SETUP.
+Otherwise → run RETURNING SESSION.
 
 --- FIRST-TIME SETUP ---
 
-Scan everything that exists:
-  - Read every file in context/ (READ-ONLY — never modify)
-  - Read .env.example for available connections (NEVER read .env itself)
+Scan what exists:
+  - Read every file in context/ (READ-ONLY)
+  - Read .env.example for available connections (NEVER read .env)
   - Check output/queries/ for saved SQL
-  - Check .gemini/skills/ for available skills
-  - Look at any project files in the root (package.json, requirements.txt, docker-compose, etc.)
+  - Check .gemini/skills/ for installed skills
+  - Glance at root for project files (package.json, requirements.txt, etc.)
 
-Tell the user what you found: "Here's what I can see about this project:" followed by a summary.
+Tell the user what you found in a short summary.
 
-Then YOU MUST ASK QUESTIONS. Reading files is not enough — you need the user's input.
-Do not write CONTEXT.md until you have asked AND received answers.
+Ask only what you actually can't infer from the files. If files make it clear,
+skip the question. Aim for the minimum viable context — you can /context:update later.
+Examples (only if relevant):
+  - "Which DB do you use most — DATABASE_URL or BIGQUERY_PROJECT?"
+  - "I don't see anything about [topic] — quick note?"
 
-The flow is: show what you found → ask about what's unclear or missing → confirm assumptions.
-
-Generate 3-5 questions. Each must reference what you found and ask the user to confirm, correct,
-or fill in gaps. Examples:
-  - "I see X in the files — is that correct, or has it changed?"
-  - "I see DATABASE_URL and BIGQUERY_PROJECT in .env.example — which do you use most?"
-  - "I don't see anything about [topic] — can you tell me about that?"
-
-Ask one question at a time. Wait for the answer before asking the next.
-You must ask at least 3 questions. Files alone never give the full picture.
-
-After getting answers, write CONTEXT.md with whatever sections make sense.
-Show a summary and ask: "Does this capture it? Anything wrong or missing?"
-
-After context is confirmed, run /info to show the user everything available.
-Then ask: "What are we working on?"
+Write CONTEXT.md from what you found and what they answered. Show a short summary.
+Then run /info and ask: "What are we working on?"
 
 --- RETURNING SESSION ---
 
-Load silently: CONTEXT.md, context/ (READ-ONLY), output/queries/, skills/, session-log, /memory show.
+Load silently: CONTEXT.md, context/ (READ-ONLY), output/queries/, skills/, /memory show.
 Check .env.example for available connections (NEVER read .env).
 
-Check for the most recent handoff doc in output/ (files matching *_handoff.md).
+Look for the most recent ./output/*_handoff.md.
 
-If a handoff exists, read it and give a status that includes:
+If a handoff exists, read it and give a short status:
   - What was done last session
-  - What was left open/unfinished
+  - What's open / unfinished
   - What was flagged to carry forward
-  Then ask: "Want to pick up where you left off, or start something new?"
+Then ask: "Pick up where you left off, or start something new?"
 
-If no handoff exists, give a short status and ask: "What are we working on?"
+If no handoff: short status, then "What are we working on?"
 
-Say: "Ready."
+End with: "Ready."
 """

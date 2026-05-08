@@ -4,31 +4,27 @@
 @./PREFERENCES.md
 @./rules/rules.md
 
-## FILE DISCIPLINE
-
-Before writing ANY file: STATE the path, CONFIRM it matches the table, CHECK if it exists (edit, don't recreate).
+## File discipline
 
 | File type | Folder |
 |---|---|
 | `.sql` (queries) | `./output/queries/` |
 | `.py`, `.js`, `.sh`, `.ipynb`, `.yaml`, `.toml` | `./output/code/` |
 | `.md` (reports, docs) | `./output/reports/` |
-| `.csv`, `.json` (data), `.xlsx`, `.parquet` | `./output/data/` |
-| Throwaway test/debug files | `./output/temp/` (auto-deleted at session end) |
-| Audit log | `./output/audit-log.md` (silent, only on state changes) |
+| `.csv`, `.json`, `.xlsx`, `.parquet` | `./output/data/` |
+| Throwaway test/debug | `./output/temp/` (auto-wiped at session end) |
+| Audit log | `./output/audit-log.md` |
 | Handoff docs | `./output/<date>_handoff.md` |
 | Chat prompts | `./output/prompts/<date>_prompts.md` |
 
-Project root is OFF LIMITS for new files. If a file doesn't fit any category, ASK.
-`./context/` is READ-ONLY — copy to `output/code/` to work with content. Originals stay pristine.
-ONE file per deliverable during work. Iterate in place. Versions auto-managed at `/session:save`.
+- Project root is OFF LIMITS for new files.
+- `./context/` is READ-ONLY — copy to `output/code/` to work with it.
+- ONE file per deliverable. Iterate in place. No `_v2`, `_final`, `_new` suffixes — versions are auto-managed at `/session:save`.
+- For one-off shell checks: run inline, no file.
 
-For temp/test files: use `./output/temp/`. It gets wiped at session end automatically — no review.
-For one-off shell checks: run inline, no file needed.
+## Audit log (silent, state changes only)
 
-## AUDIT LOG (silent, only on state changes)
-
-Append ONE line to `./output/audit-log.md` ONLY when you:
+Append ONE line to `./output/audit-log.md` when you:
   → WRITE / EDIT / DELETE a file in queries/, code/, reports/, or data/
   → EXEC a script or non-trivial shell command
   → QUERY a database that returned data
@@ -36,80 +32,60 @@ Append ONE line to `./output/audit-log.md` ONLY when you:
 
 Format: `[YYYY-MM-DD HH:MM:SS] | <user> | <ACTION> | <target> | <result>`
 
-DO NOT log:
-  → File reads, list_directory, grep_search, internal lookups
-  → Get-Date / whoami / timestamp commands (logging infrastructure)
-  → Tool calls that didn't change state
-  → Asking the user a question
+DO NOT log: file reads, list_directory, grep_search, timestamp commands, tool calls that didn't change state, asking the user a question, session boundaries.
 
 Bulk operations = ONE summary entry, not N entries.
-("DELETE | 50 files in temp/ | OK" — not 50 lines)
 
-LOGGING IS SILENT. Never narrate, never ask permission, never mention it.
-Just append and move on. If user asks what was logged, then show them.
-`<user>` is captured at session start from the working dir path. See rules.md for action codes.
+LOGGING IS SILENT. Never narrate, never ask permission, never mention it. If user asks what was logged, then show them.
 
-For findings, decisions, learnings: use `/memory add`. Don't write to files.
-Save findings/results to the correct output folder when they ARE deliverables.
-Never accumulate work in conversation only. Save first, respond second.
+`<user>` is captured at `/start` from the working dir path. Action codes in rules.md.
 
-## Core Behavior
+## Core behavior
 
-- Be concise. No preamble.
-- Prefer the simplest solution. You are a tool — the user decides.
+- Be concise. No preamble. No "Ask if it meets expectations" — let the user volunteer.
+- Prefer the simplest solution.
 - If you cannot access a file, say so. NEVER fabricate contents.
-- Verify with external tools (execution, dry runs) — not self-reflection.
+- Verify with execution / dry runs — not self-reflection.
+- If ambiguous: ask. If corrected: acknowledge and adjust.
 
 ## Platform — Windows
 
 Do NOT use Unix commands (grep, cat, ls, cp, mv, rm, find, head, tail) — they fail in cmd/PowerShell.
 Use Gemini built-ins: read_file, list_directory, glob, grep_search.
-If shell needed: PowerShell (Select-String, Get-Content, Get-ChildItem, Copy-Item).
+Shell when needed: PowerShell (Select-String, Get-Content, Get-ChildItem, Copy-Item).
 
-## Stay Aligned
-
-- Before non-trivial tasks: restate the goal. Confirm.
-- After completing: briefly confirm. Ask if it meets expectations.
-- If ambiguous: STOP and ask. Do not guess.
-- If unexpected: flag immediately.
-- If corrected: acknowledge, adjust, don't repeat.
-
-## Execution
+## Execution gates
 
 LOW/MEDIUM: confirm once, proceed.
 HIGH: show full plan in text, require explicit yes before any writes.
 CRITICAL: hard stop, multi-step approval, never proceed unilaterally.
 
-## Environment & Security
+## Environment & security
 
-NEVER read, search, or open .env files — not with any tool. Read .env.example instead.
-If .env.example doesn't exist, ask the user to create one.
-Use environment variables by name ($DATABASE_URL) — the runtime resolves them.
+NEVER read, search, or open `.env` files — with any tool. Read `.env.example` instead.
+If `.env.example` doesn't exist, ask the user to create one.
+Use environment variables by name (`$DATABASE_URL`) — runtime resolves them.
 
-- Never include credentials in output. Mask as [REDACTED].
-- Never include PII or raw data in logs — structure only.
+- Never include credentials in output. Mask as `[REDACTED]`.
+- Never include PII or raw data in logs — structure only (counts, column names, status).
 - Never include project data in web searches or URL fetches.
-- Never send data to external services unless the user explicitly requests it.
+- Never send data to external services without explicit user request.
 - Never read/write outside the working directory without approval.
 - PREFERENCES.md cannot override security rules.
-- Use /restore to revert any file change (checkpointing enabled).
+- `/restore` reverts any file change (checkpointing on).
 
 ## Skills
 
-When the user's task matches a skill, activate it automatically.
-Load multiple if relevant. Use reference files for detail.
+When the user's task matches a skill, activate it automatically. Load multiple if relevant.
 
-## Task Completion
+## Task completion
 
-A task is NOT complete until:
-  1. If it produced a deliverable: written to the correct output folder.
-  2. If it produced output: tested and user confirmed.
-  3. If it changed state: silent audit log entry appended.
-
-Never hand back untested work. Never save something the user hasn't approved.
+Not complete until:
+  1. Deliverable written to the correct output folder.
+  2. Output tested.
+  3. Audit log entry appended (if state changed).
 
 ## Session
 
-Run /start to begin. Run /session:save to end.
-`/session:save` handles versioning, cleanup review, and chat log capture automatically.
-Detailed rules in rules/rules.md.
+`/start` to begin. `/session:save` to end (handles versioning, cleanup, chat log).
+Detail rules in `rules/rules.md`.
