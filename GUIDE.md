@@ -1,38 +1,44 @@
 # Gemini CLI — Data Analyst Toolkit Guide
 
-A Gemini CLI setup for data analysts, engineers, and scientists. Audit trail,
-versioning, query management, and skills for the tools you actually use —
-out of the box, with corporate-grade safety baked in.
+A Gemini CLI setup for data analysts, engineers, and scientists. 9 specialized subagents, audit trail, versioning, query management, and skills for Python / BigQuery / Excel — out of the box, with corporate-grade safety baked in.
 
 ## Setup
 
 1. Copy `starter-kit/` contents into your project root.
-2. Copy relevant skills from `skills/` into `.gemini/skills/` (Python, BigQuery, Excel).
+2. Copy relevant skills from `skills/` into `.gemini/skills/`.
 3. Drop reference files into `context/` (schemas, docs, specs — auto-loaded every session, READ-ONLY).
-4. Run `/start`. It handles everything — first-time setup and every session after.
-5. Run `/info` anytime to see what's available.
+4. Run `/start`.
+5. Run `/info` anytime to see commands and agents.
 
 Checkpointing is on. Use `/restore` to undo any file change.
 
 ## How It Works
 
-**`/start`** is the only command you need to start. First time, it captures your user identity (from working directory path), scans your project, asks smart questions, and builds CONTEXT.md. Every time after, it loads everything and asks what you're working on. Picks up from your last handoff if there is one.
+**`/start`** is the entry point. First time, it captures your user identity (from working directory path), scans your project, asks only what it can't infer from files, and builds CONTEXT.md. Every time after, it loads everything and asks what you're working on. Picks up from your last handoff if there is one.
 
-**Skills activate automatically.** If you ask about BigQuery and the bigquery skill is installed, it loads. Same for Python and Excel. No manual activation.
+**Skills activate automatically.** If you ask about BigQuery and the bigquery skill is installed, it loads. Same for Python and Excel.
 
-**Queries are managed.** Write → test → show you → confirm → save. Every execution is logged. Your query library lives in `output/queries/`.
+**Subagents activate explicitly.** Type `@` in chat and pick a specialist (`@solution-designer`, `@query-validator`, etc.). Each runs in an isolated context window so heavy work doesn't bloat the main session. See [AGENTS.md](AGENTS.md) for the decision tree.
 
-**Files are organized.** Strict folder structure. No scratch sprawl. `output/code/` for scripts, `output/reports/` for analysis, `output/data/` for exports. Pre-write checkpoint forces Gemini to verify the path before every write.
+**Plan Mode is on.** For multi-step or risky work, Gemini researches first (Pro model), proposes a plan, waits for your approval, then executes (Flash model). Trivial requests skip planning automatically.
+
+**Queries are managed.** Write → validate (`@query-validator`) → save → log. Every execution is logged. Your query library lives in `output/queries/`.
+
+**Files are organized.** Strict folder structure. No scratch sprawl. `output/code/` for scripts, `output/reports/` for analysis, `output/data/` for exports. `output/temp/` for throwaway work — auto-wiped at session end.
 
 **Versioning is automatic.** At `/session:save`, modified files get snapshotted as `_v1`, `_v2`, `_v3` (max 3, rotating). Live working file keeps its base name.
 
-**Audit trail is automatic.** Every write, exec, and query gets a structured entry in `output/audit-log.md` with timestamp, user, action, target, and result.
+**Audit trail is automatic and silent.** Every state-changing action writes one line to `output/audit-log.md` with timestamp, user, action, target, and result. Reads, list_directory, and session boundaries are NOT logged.
 
-**Chat log captures your prompts** at session end (substantive ones only — skips "yes", "ok", "go ahead"). Saved to `output/prompts/<date>_prompts.md`.
+**Memory is 4-tier:**
+1. `~/.gemini/GEMINI.md` — global cross-project preferences
+2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions
+3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts (via `/memory inbox`)
+4. Session ephemeral
 
-**Cleanup review at session end.** Gemini lists files created this session and asks: keep all, delete all, or review one-by-one. No mid-session interruptions.
+**Chat log captures your prompts** at session end. Substantive ones only — skips "yes", "ok", etc.
 
-**`/session:save`** writes the handoff doc, runs versioning, cleanup, chat log capture, and final audit entry.
+**`/session:save`** writes the handoff doc, runs versioning, cleanup, chat log capture.
 
 ## What's in the Kit
 
@@ -40,9 +46,9 @@ Checkpointing is on. Use `/restore` to undo any file change.
 GEMINI.md              Core rules — auto-loaded
 rules/rules.md         Detail layer
 CONTEXT.md             Project context — built by /start
-PREFERENCES.md         Personal preferences + workflow overrides
+PREFERENCES.md         Personal preferences + agent + workflow overrides
 .env.example           Connection variable names (Gemini reads this, not .env)
-.gemini/settings.json  Checkpointing, compression, session retention
+.gemini/settings.json  Checkpointing, Plan Mode + model routing, compression
 .geminiignore          Keeps secrets and PII out of context
 .gitignore             Protects credentials and outputs from git
 
@@ -52,6 +58,8 @@ context/               Reference files — READ-ONLY, auto-loaded
   commands/            /start, /setup, /session:save, /context:update,
                        /version, /info
   skills/              Skills that activate automatically
+  agents/              9 subagents that activate via @name
+  memory/MEMORY.md     Project-private memory tier
 
 output/                Workspace — everything Gemini produces
   queries/             SQL query library — one .sql per query
@@ -72,25 +80,44 @@ output/                Workspace — everything Gemini produces
 | `/session:save` | End session — versioning, cleanup, chat log, handoff |
 | `/version <file>` | Manual snapshot of a file as v1/v2/v3 |
 | `/context:update` | Add something permanent to CONTEXT.md |
-| `/info` | Show available commands and features |
-| `/memory add` | Persist a fact across sessions (survives compression) |
-| `/restore` | Undo a file change |
+| `/info` | Show available commands, agents, and features |
+| `/memory add` | Persist a fact across sessions (built-in) |
+| `/memory inbox` | Review staged memory entries (built-in) |
+| `/restore` | Undo a file change (built-in) |
+| `@<agent>` | Invoke a specialized subagent |
 | `@./file` | Inject any file into context mid-session |
+
+## Subagents — Quick Reference
+
+See [AGENTS.md](AGENTS.md) for the full decision tree with example prompts.
+
+**Thinking:** `@solution-designer` (brainstorm, decompose, weigh tradeoffs)
+
+**SQL / data:** `@query-validator`, `@schema-explorer`, `@data-profiler`
+
+**Stats / migration:** `@stats-advisor`, `@sas-migrator`
+
+**Excel / Power Query:** `@excel-reviewer`, `@powerquery-reviewer`
+
+**Output:** `@report-drafter` (writes to `output/reports/`)
 
 ## Tips
 
 - **`context/` is your library.** Drop schemas, docs, specs — auto-loaded, READ-ONLY.
 - **`output/queries/` is your query library.** One `.sql` per query, iterated in place, execution logged.
-- **`PREFERENCES.md` is your customization file.** Tone, style, habits, plus workflow overrides.
+- **`PREFERENCES.md` is your customization file.** Tone, agent defaults, workflow overrides.
 - **`/memory add` for critical facts.** Memory survives compression. Chat history doesn't.
-- **`/context:update` before closing.** One minute now saves re-explaining next session.
+- **`/context:update` before closing** when something's worth persisting permanently.
 - **Don't fight versioning.** Iterate in place during work. Versioning happens at `/session:save`.
+- **Stuck on a vague problem? Try `@solution-designer` first.** It asks the questions that turn "build a dashboard" into a concrete plan.
+- **Validate before executing on billable systems.** `@query-validator` does dry-run cost checks before BigQuery scans.
 
 ## Sources
 
-- Official Gemini CLI docs (GEMINI.md, /memory, checkpointing, skills)
+- Official Gemini CLI docs (GEMINI.md, /memory, checkpointing, skills, subagents)
 - OWASP AI Agent Security Cheat Sheet (risk classification)
 - Google Cloud Community PRAR workflow (gated execution)
 - HumanLayer CLAUDE.md research (instruction design)
 - AGENTS.md standard (cross-tool compatibility)
 - LLM limitations research (context management, verification, fabrication prevention)
+- Deep research on Gemini subagent architecture (May 2026 release notes)

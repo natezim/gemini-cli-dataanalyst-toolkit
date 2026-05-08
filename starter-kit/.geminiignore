@@ -28,10 +28,14 @@ output/prompts/
 output/temp/
 
 # Prevent credentials from being dropped into context/
+# (JSON schemas like info_schema dumps are useful — only block credential files)
 context/*.env
 context/*.pem
 context/*.key
-context/*.json
+context/*credential*.json
+context/*secret*.json
+context/*service-account*.json
+context/*-key.json
 
 # Large files unlikely to be useful as context
 *.log

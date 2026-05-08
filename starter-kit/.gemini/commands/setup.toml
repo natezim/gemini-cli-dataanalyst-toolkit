@@ -2,22 +2,23 @@ description = "Rebuild project context from scratch"
 prompt = """
 The user wants to rebuild their project context.
 
-Scan everything:
-  - Read every file in context/
-  - Read .env.example for available connections (NEVER read .env itself)
+Scan what exists:
+  - Read every file in context/ (READ-ONLY)
+  - Read .env.example for available connections (NEVER read .env)
   - Check output/queries/ for saved SQL
-  - Check .gemini/skills/ for available skills
-  - Look at project files in the root (package.json, requirements.txt, docker-compose, etc.)
+  - Check .gemini/skills/ for installed skills
+  - Check .gemini/agents/ for installed subagents
+  - Glance at root for project files (package.json, requirements.txt, etc.)
 
-Summarize what you found.
+Summarize what you found in a short readout.
 
-Generate targeted questions based on what's MISSING from your understanding.
-Do not use a hardcoded question list. Each question should reference what you discovered.
-Ask one at a time. After each answer, decide if you need another or have enough.
+Ask only what you actually can't infer from the files. If files make it clear,
+skip the question. Aim for the minimum viable context — the user can
+/context:update later. No forced question count.
 
-Rewrite CONTEXT.md with whatever sections make sense for this project.
-Show a summary. Ask: "Does this capture it? Anything wrong or missing?"
-Apply corrections.
+Rewrite CONTEXT.md from what you found and what they answered. Show a short
+summary. Ask: "Does this capture it? Anything wrong or missing?" Apply
+corrections.
 
 Say: "Context updated."
 """
