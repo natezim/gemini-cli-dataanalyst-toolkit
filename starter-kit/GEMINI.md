@@ -38,7 +38,7 @@ Format: `[YYYY-MM-DD HH:MM:SS] | <user> | <ACTION> | <target> | <result>`
 
 DO NOT log:
   → File reads, list_directory, grep_search, internal lookups
-  → Get-Date / whoami / pre-approved info commands (logging infrastructure)
+  → Get-Date / whoami / timestamp commands (logging infrastructure)
   → Tool calls that didn't change state
   → Asking the user a question
 

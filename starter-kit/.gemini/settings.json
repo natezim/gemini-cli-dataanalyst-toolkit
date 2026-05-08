@@ -1,34 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
   "general": {
-    "checkpointing": {
-      "enabled": true
-    },
-    "sessionRetention": {
-      "enabled": true,
-      "maxAge": "7d",
-      "maxCount": 10
-    },
-    "plan": {
-      "enabled": false
-    }
+    "checkpointing": { "enabled": true },
+    "sessionRetention": { "enabled": true, "maxAge": "7d", "maxCount": 10 },
+    "plan": { "enabled": false }
   },
   "context": {
     "fileName": ["GEMINI.md"],
     "includeDirectories": ["context"]
   },
-  "model": {
-    "compressionThreshold": 0.4
-  },
-  "tools": {
-    "allowed": [
-      "run_shell_command(Get-Date)",
-      "run_shell_command(whoami)",
-      "run_shell_command(echo %USERNAME%)",
-      "run_shell_command($env:USERNAME)",
-      "run_shell_command(git status)",
-      "run_shell_command(git diff)",
-      "run_shell_command(git log)"
-    ]
-  }
+  "model": { "compressionThreshold": 0.4 }
 }
