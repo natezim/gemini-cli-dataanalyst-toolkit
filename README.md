@@ -115,7 +115,7 @@ Session boundaries are NOT logged. Read-only operations are NOT logged.
 
 **Chat log** — substantive user prompts saved to `output/prompts/<date>_prompts.md` at session end.
 
-**Cleanup review** — at session end, Gemini lists files created this session and asks: keep all, delete all, or review one-by-one. Skipped silently if no new files.
+**No cleanup prompt** — `output/temp/` is auto-wiped at session end (silent). Files in `code/`, `reports/`, `queries/`, `data/` are deliverables by rule and are never asked about. Throwaway work goes in `temp/`, period.
 
 ## Security Defaults
 

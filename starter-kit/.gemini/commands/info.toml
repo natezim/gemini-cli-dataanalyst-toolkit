@@ -7,7 +7,7 @@ Show the user what's available in this workspace:
 Commands:
   /start — start or resume a session (captures user, snapshots files)
   /setup — rebuild project context from scratch
-  /session:save — end session: versioning, cleanup review, chat log, handoff
+  /session:save — end session: versioning, temp wipe, chat log, handoff
   /version <file> — manually snapshot a file as v1/v2/v3
   /context:update — add something permanent to project context
   /memory add <fact> — persist a fact across sessions

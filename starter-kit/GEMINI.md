@@ -21,6 +21,7 @@
 - `./context/` is READ-ONLY — copy to `output/code/` to work with it.
 - ONE file per deliverable. Iterate in place. No `_v2`, `_final`, `_new` suffixes — versions are auto-managed at `/session:save`.
 - For one-off shell checks: run inline, no file.
+- **THROWAWAY = `./output/temp/`, NO EXCEPTIONS.** Test scripts, scratch SQL, debug helpers, profiling probes, "let me just check this" files — all go in `temp/`. It auto-wipes at session end with no review prompt. Never put exploratory work in `code/`, `reports/`, `queries/`, or `data/` — those are reserved for deliverables you actually want kept.
 
 ## Audit log (silent, state changes only)
 
@@ -84,7 +85,7 @@ Specialized subagents live in `.gemini/agents/`. They run in isolated context wi
 
 - Invoke explicitly with `@<name>` (e.g., `@query-validator check this SQL`) — more reliable than implicit routing.
 - Built-ins: `@generalist`, `@codebase_investigator`, `@cli_help`.
-- Read-only agents (validators, explorers, profilers) can run in parallel — dispatch them concurrently for multi-file or multi-domain analysis.
+- Read-only agents (validators, explorers, profilers, reviewers, auditors, mappers) can run in parallel — dispatch them concurrently for multi-file or multi-domain analysis.
 - State-mutating agents (writers, refactorers) MUST run sequentially. Never dispatch two writers at the same target.
 - Each subagent returns a compressed summary, not raw tool output. Trust the summary; don't re-run the work.
 

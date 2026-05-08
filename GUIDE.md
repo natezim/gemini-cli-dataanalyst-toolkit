@@ -38,7 +38,7 @@ Checkpointing is on. Use `/restore` to undo any file change.
 
 **Chat log captures your prompts** at session end. Substantive ones only — skips "yes", "ok", etc.
 
-**`/session:save`** writes the handoff doc, runs versioning, cleanup, chat log capture.
+**`/session:save`** writes the handoff doc, runs versioning, wipes `output/temp/`, captures chat log. No prompts about deliverable files — they're kept by rule.
 
 ## What's in the Kit
 
@@ -77,7 +77,7 @@ output/                Workspace — everything Gemini produces
 |---|---|
 | `/start` | Start or resume a session |
 | `/setup` | Rebuild context from scratch |
-| `/session:save` | End session — versioning, cleanup, chat log, handoff |
+| `/session:save` | End session — versioning, temp wipe, chat log, handoff |
 | `/version <file>` | Manual snapshot of a file as v1/v2/v3 |
 | `/context:update` | Add something permanent to CONTEXT.md |
 | `/info` | Show available commands, agents, and features |

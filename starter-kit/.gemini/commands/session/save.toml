@@ -1,6 +1,6 @@
-description = "End of session — versioning, cleanup, chat log, handoff doc"
+description = "End of session — versioning, temp wipe, chat log, handoff doc"
 prompt = """
-The session is ending. Run these in order. Silent unless a step needs input.
+The session is ending. Run these in order. Silent unless a step truly needs input.
 
 --- 1. VERSIONING ---
 
@@ -17,21 +17,15 @@ Append ONE audit entry: `VERSION | <n> files | OK`.
 
 --- 2. WIPE TEMP ---
 
-Delete every file in ./output/temp/ (keep the folder). One audit entry:
-`DELETE | wiped <n> files from output/temp/ | OK`.
+Delete every file in ./output/temp/ (keep the folder). Silent.
+One audit entry: `DELETE | wiped <n> files from output/temp/ | OK`.
 
---- 3. CLEANUP REVIEW ---
+(No cleanup-review prompt. Files in output/code/, reports/, queries/, data/
+are deliverables by rule — they were intentionally written there. Throwaway
+work belongs in output/temp/, which just got wiped. Don't ask the user about
+deliverables.)
 
-List files NEW this session (didn't exist at session start), excluding:
-audit-log.md, prompts/, *_handoff.md, anything in temp/.
-
-If there are any new files, ask ONCE: "Created this session — keep all, delete all,
-or review one-by-one?" Default if user just confirms: keep all. Apply choice and
-audit any deletions in a single summary entry.
-
-If there are no new files: skip this step entirely.
-
---- 4. CHAT LOG ---
+--- 3. CHAT LOG ---
 
 Save user prompts to ./output/prompts/<YYYY-MM-DD>_prompts.md.
 
@@ -48,7 +42,7 @@ Format:
 
 Append if today's file already exists.
 
---- 5. HANDOFF DOC ---
+--- 4. HANDOFF DOC ---
 
 Write ./output/<YYYY-MM-DD>_handoff.md:
 
@@ -63,7 +57,7 @@ Write ./output/<YYYY-MM-DD>_handoff.md:
   ### Carry Forward
   <critical context for next session>
 
---- 6. WRAP-UP ---
+--- 5. WRAP-UP ---
 
 Run /memory show. If anything critical from this session isn't persisted, /memory add it.
 
