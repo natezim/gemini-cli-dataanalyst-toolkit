@@ -78,6 +78,26 @@ Use environment variables by name (`$DATABASE_URL`) — runtime resolves them.
 
 When the user's task matches a skill, activate it automatically. Load multiple if relevant.
 
+## Subagents
+
+Specialized subagents live in `.gemini/agents/`. They run in isolated context windows so heavy work doesn't bloat the main session.
+
+- Invoke explicitly with `@<name>` (e.g., `@query-validator check this SQL`) — more reliable than implicit routing.
+- Built-ins: `@generalist`, `@codebase_investigator`, `@cli_help`.
+- Read-only agents (validators, explorers, profilers) can run in parallel — dispatch them concurrently for multi-file or multi-domain analysis.
+- State-mutating agents (writers, refactorers) MUST run sequentially. Never dispatch two writers at the same target.
+- Each subagent returns a compressed summary, not raw tool output. Trust the summary; don't re-run the work.
+
+## Memory
+
+Four tiers, in order of permanence:
+1. `~/.gemini/GEMINI.md` — global, cross-project preferences (you edit this once)
+2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions and context
+3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts, written via `/memory inbox` after recurrence evidence
+4. Session ephemeral — current context window
+
+Use `/memory add` for facts that should survive compression. Don't autonomously write to `MEMORY.md` — stage via the inbox flow.
+
 ## Task completion
 
 Not complete until:

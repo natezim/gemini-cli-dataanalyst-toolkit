@@ -24,8 +24,22 @@ Workspace:
   output/audit-log.md — structured audit trail (every write/exec/query)
   output/prompts/ — your chat prompts saved at session end
   .gemini/skills/ — skills that activate automatically
+  .gemini/agents/ — specialized subagents (run in isolated context)
+  .gemini/memory/MEMORY.md — project-private dynamic facts
   PREFERENCES.md — customize behavior (tone, workflow overrides)
   CONTEXT.md — your project context, built by /start
+
+Subagents (invoke with @name — runs in an isolated context window):
+  Built-in:
+    @generalist — heavy work that would bloat the main context
+    @codebase_investigator — deep file/dependency tracing
+    @cli_help — Gemini CLI questions
+  Custom (read-only, parallel-safe):
+    @query-validator — SQL syntax + dry-run cost check before running
+    @schema-explorer — answers schema questions from context/ without dumping DDL
+    @data-profiler — shape/nulls/cardinality on a dataset, scripts in temp/
+  Custom (write-scoped, sequential):
+    @report-drafter — writes markdown reports to output/reports/ only
 
 Skills (copy from the repo's skills/ folder into .gemini/skills/ — only installed skills are active):
   python/ — Data analysis, pandas/NumPy, scikit-learn, visualization, testing
