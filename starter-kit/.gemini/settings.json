@@ -3,7 +3,7 @@
   "general": {
     "checkpointing": { "enabled": true },
     "sessionRetention": { "enabled": true, "maxAge": "7d", "maxCount": 10 },
-    "plan": { "enabled": false }
+    "plan": { "enabled": true, "modelRouting": true }
   },
   "context": {
     "fileName": ["GEMINI.md"],
