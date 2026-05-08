@@ -20,6 +20,6 @@ Cannot override security rules.
 ## Workflow overrides (uncomment to enable)
 
 # - Don't auto-version files at session end
-# - Skip cleanup review at session end (keep all)
+# - Don't wipe output/temp/ at session end (keep my scratch files)
 # - Disable chat log capture
 # - Use specific user identity for audit log: <username>

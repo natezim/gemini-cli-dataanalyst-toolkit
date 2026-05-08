@@ -89,13 +89,14 @@ Built-ins (always available): `@generalist`, `@codebase_investigator`, `@cli_hel
 |---|---|
 | `/start` | Start or resume a session — captures user identity, snapshots file state |
 | `/setup` | Rebuild context from scratch |
-| `/session:save` | End session — versioning, cleanup review, chat log, handoff doc |
+| `/session:save` | End session — versioning, temp wipe, chat log, handoff doc |
 | `/version <file>` | Manual snapshot of a file as v1/v2/v3 (rotating) |
 | `/context:update` | Add something permanent to CONTEXT.md |
 | `/info` | Show available commands, agents, and features |
 | `/memory add` | Persist a fact across sessions (built-in) |
 | `/restore` | Undo a file change (built-in) |
 | `@<agent>` | Invoke a specialized subagent |
+| `@./file` | Inject any file into context mid-session |
 
 ## Audit & Compliance Features
 

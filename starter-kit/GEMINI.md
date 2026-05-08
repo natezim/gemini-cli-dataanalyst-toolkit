@@ -94,10 +94,10 @@ Specialized subagents live in `.gemini/agents/`. They run in isolated context wi
 Four tiers, in order of permanence:
 1. `~/.gemini/GEMINI.md` — global, cross-project preferences (you edit this once)
 2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions and context
-3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts, written via `/memory inbox` after recurrence evidence
+3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts, written manually after recurrence evidence (don't autonomously edit)
 4. Session ephemeral — current context window
 
-Use `/memory add` for facts that should survive compression. Don't autonomously write to `MEMORY.md` — stage via the inbox flow.
+Use `/memory add` for facts that should survive compression. Don't autonomously write to `MEMORY.md` — propose entries to the user, let them decide.
 
 ## Task completion
 

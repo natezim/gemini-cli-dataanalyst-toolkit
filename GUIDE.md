@@ -33,7 +33,7 @@ Checkpointing is on. Use `/restore` to undo any file change.
 **Memory is 4-tier:**
 1. `~/.gemini/GEMINI.md` — global cross-project preferences
 2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions
-3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts (via `/memory inbox`)
+3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts (manually curated)
 4. Session ephemeral
 
 **Chat log captures your prompts** at session end. Substantive ones only — skips "yes", "ok", etc.
@@ -82,7 +82,6 @@ output/                Workspace — everything Gemini produces
 | `/context:update` | Add something permanent to CONTEXT.md |
 | `/info` | Show available commands, agents, and features |
 | `/memory add` | Persist a fact across sessions (built-in) |
-| `/memory inbox` | Review staged memory entries (built-in) |
 | `/restore` | Undo a file change (built-in) |
 | `@<agent>` | Invoke a specialized subagent |
 | `@./file` | Inject any file into context mid-session |
