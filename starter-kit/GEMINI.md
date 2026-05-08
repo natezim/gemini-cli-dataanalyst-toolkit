@@ -39,6 +39,10 @@ Never accumulate work in conversation only. Save first, respond second.
 The audit log is non-negotiable. If you ran something and didn't audit it, you broke the rule.
 `<user>` is captured at session start from the working directory path. See rules.md for action codes.
 
+LOGGING IS SILENT. Never narrate "logging this" or "writing audit entry." Never ask permission
+to log. Just append the line and move on. If the user asks what was logged, then show them.
+Get-Date and whoami are pre-approved — use them without asking.
+
 ## Core Behavior
 
 - Be concise. No preamble.
