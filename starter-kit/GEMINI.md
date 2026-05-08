@@ -15,7 +15,7 @@ Before writing ANY file: STATE the path, CONFIRM it matches the table, CHECK if 
 | `.md` (reports, docs) | `./output/reports/` |
 | `.csv`, `.json` (data), `.xlsx`, `.parquet` | `./output/data/` |
 | Throwaway test/debug files | `./output/temp/` (auto-deleted at session end) |
-| Logs | `./output/session-log.md`, `query-log.md`, `audit-log.md` |
+| Audit log | `./output/audit-log.md` (silent, only on state changes) |
 | Handoff docs | `./output/<date>_handoff.md` |
 | Chat prompts | `./output/prompts/<date>_prompts.md` |
 
@@ -26,22 +26,32 @@ ONE file per deliverable during work. Iterate in place. Versions auto-managed at
 For temp/test files: use `./output/temp/`. It gets wiped at session end automatically — no review.
 For one-off shell checks: run inline, no file needed.
 
-## SAVE AS YOU GO
+## AUDIT LOG (silent, only on state changes)
 
-After every meaningful action, IMMEDIATELY append to:
-  → `./output/session-log.md` — narrative ("what you did")
-  → `./output/query-log.md` — if you ran a query (rows, result)
-  → `./output/audit-log.md` — structured: `[TS] | <user> | <ACTION> | <target> | <result>`
+Append ONE line to `./output/audit-log.md` ONLY when you:
+  → WRITE / EDIT / DELETE a file in queries/, code/, reports/, or data/
+  → EXEC a script or non-trivial shell command
+  → QUERY a database that returned data
+  → READ-EXT (web fetch, external content)
 
-Plus: write findings to the correct folder NOW. `/memory add` for critical discoveries.
+Format: `[YYYY-MM-DD HH:MM:SS] | <user> | <ACTION> | <target> | <result>`
+
+DO NOT log:
+  → File reads, list_directory, grep_search, internal lookups
+  → Get-Date / whoami / pre-approved info commands (logging infrastructure)
+  → Tool calls that didn't change state
+  → Asking the user a question
+
+Bulk operations = ONE summary entry, not N entries.
+("DELETE | 50 files in temp/ | OK" — not 50 lines)
+
+LOGGING IS SILENT. Never narrate, never ask permission, never mention it.
+Just append and move on. If user asks what was logged, then show them.
+`<user>` is captured at session start from the working dir path. See rules.md for action codes.
+
+For findings, decisions, learnings: use `/memory add`. Don't write to files.
+Save findings/results to the correct output folder when they ARE deliverables.
 Never accumulate work in conversation only. Save first, respond second.
-
-The audit log is non-negotiable. If you ran something and didn't audit it, you broke the rule.
-`<user>` is captured at session start from the working directory path. See rules.md for action codes.
-
-LOGGING IS SILENT. Never narrate "logging this" or "writing audit entry." Never ask permission
-to log. Just append the line and move on. If the user asks what was logged, then show them.
-Get-Date and whoami are pre-approved — use them without asking.
 
 ## Core Behavior
 
@@ -92,9 +102,9 @@ Load multiple if relevant. Use reference files for detail.
 ## Task Completion
 
 A task is NOT complete until:
-  1. Results are written to disk (log, output file, or /memory).
-  2. If it produces output: tested and user confirmed.
-  3. Audit log entry written.
+  1. If it produced a deliverable: written to the correct output folder.
+  2. If it produced output: tested and user confirmed.
+  3. If it changed state: silent audit log entry appended.
 
 Never hand back untested work. Never save something the user hasn't approved.
 

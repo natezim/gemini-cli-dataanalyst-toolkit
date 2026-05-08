@@ -10,8 +10,6 @@ credentials/
 
 # Output — may contain PII, query results, sensitive data
 output/data/
-output/session-log.md
-output/query-log.md
 output/audit-log.md
 output/*_handoff.md
 output/prompts/

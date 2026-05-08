@@ -28,7 +28,7 @@ Never wipe ./output/temp/ itself, just its contents.
 --- 3. CLEANUP REVIEW ---
 
 List files that are NEW this session (didn't exist at session start), excluding:
-session-log.md, query-log.md, audit-log.md, prompts/, *_handoff.md, anything in temp/.
+audit-log.md, prompts/, *_handoff.md, anything in temp/.
 
 Ask the user: "These files were created this session. Keep all, delete all, or review one-by-one?"
 List each file with a one-line description.

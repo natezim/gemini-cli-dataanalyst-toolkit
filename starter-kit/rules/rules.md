@@ -73,8 +73,10 @@ After two failed attempts, stop and ask.
 - Quality degrades as context grows. Compact or start fresh for new phases.
 - For multi-phase work: write findings to files between phases.
 
-## Log formats summary
+## Logging discipline
 
-Session log: `[YYYY-MM-DD HH:MM] <what you did>` — narrative
-Query log:   `[YYYY-MM-DD HH:MM] RAN: <name> | Rows: <count> | Result: <summary>`
-Audit log:   `[YYYY-MM-DD HH:MM:SS] | <user> | <ACTION> | <target> | <result>` — structured
+ONE log: `./output/audit-log.md`. Silent. Only on state changes. See GEMINI.md for triggers.
+Format: `[YYYY-MM-DD HH:MM:SS] | <user> | <ACTION> | <target> | <result>`
+
+Use `/memory add` for findings, decisions, learnings — not files.
+The chat log at `/session:save` captures user prompts (not Gemini's responses).

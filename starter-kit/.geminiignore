@@ -21,8 +21,6 @@ secrets/
 credentials/
 
 # Logs and data exports — may contain PII, shouldn't auto-load
-output/session-log.md
-output/query-log.md
 output/audit-log.md
 output/data/
 output/*_handoff.md
