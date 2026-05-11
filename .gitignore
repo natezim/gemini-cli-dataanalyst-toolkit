@@ -1,15 +1,36 @@
-# Repo-level ignores — research files, drafts, machine state
-*.skill
-compass_artifact_*
-deep-research-report*
-*deep research*
-LLM Limitations*
+# Public repo-level .gitignore
+# (starter-kit/.gitignore handles user-project ignores separately)
+
+# Local secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Dev cruft
+node_modules/
+vendor/
+.venv/
+__pycache__/
+*.pyc
+*.class
+dist/
+build/
+*.log
 
 # Claude Code local config
 .claude/
 
-# OS and IDE artifacts
+# OS and IDE
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+
+# Scratch
+*.tmp
+*.bak

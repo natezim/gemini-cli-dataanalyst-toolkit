@@ -23,9 +23,12 @@ credentials/
 # Logs and data exports — may contain PII, shouldn't auto-load
 output/audit-log.md
 output/data/
-output/*_handoff.md
 output/prompts/
 output/temp/
+
+# NOTE: output/*_handoff.md is intentionally NOT ignored.
+# /start reads the most recent handoff to resume context across sessions.
+# Handoffs are still gitignored (they stay local, not in the public repo).
 
 # Prevent credentials from being dropped into context/
 # (JSON schemas like info_schema dumps are useful — only block credential files)
