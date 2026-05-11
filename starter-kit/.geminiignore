@@ -1,14 +1,7 @@
-# Dependencies
-node_modules/
-vendor/
-.venv/
-__pycache__/
-
-# Build output
-dist/
-build/
-*.pyc
-*.class
+# What Gemini should NOT see when scanning the project.
+# This file controls context auto-load and file visibility.
+# Anything listed here is invisible to Gemini — including files
+# Gemini itself created. So keep this list TIGHT.
 
 # Secrets and credentials — never expose to context
 .env
@@ -20,18 +13,34 @@ build/
 secrets/
 credentials/
 
-# Logs and data exports — may contain PII, shouldn't auto-load
-output/audit-log.md
-output/data/
-output/prompts/
+# Third-party / generated noise — would bloat context
+node_modules/
+vendor/
+.venv/
+__pycache__/
+dist/
+build/
+*.pyc
+*.class
+
+# Explicitly auto-wiped scratch — no value to Gemini after wipe
 output/temp/
 
-# NOTE: output/*_handoff.md is intentionally NOT ignored.
-# /start reads the most recent handoff to resume context across sessions.
-# Handoffs are still gitignored (they stay local, not in the public repo).
+# Large binary formats that aren't useful as text context
+*.zip
+*.tar.gz
+*.parquet
+*.avro
+*.log
+
+# OS and IDE artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 
 # Prevent credentials from being dropped into context/
-# (JSON schemas like info_schema dumps are useful — only block credential files)
+# (Regular JSON schemas like info_schema dumps ARE visible — only credential files blocked)
 context/*.env
 context/*.pem
 context/*.key
@@ -40,15 +49,11 @@ context/*secret*.json
 context/*service-account*.json
 context/*-key.json
 
-# Large files unlikely to be useful as context
-*.log
-*.zip
-*.tar.gz
-*.parquet
-*.avro
-
-# OS and IDE artifacts
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
+# Everything Gemini creates in output/ stays visible:
+#   output/queries/      its own SQL library
+#   output/code/         its own scripts
+#   output/reports/      its own analyses
+#   output/data/         its own exports
+#   output/audit-log.md  its own write trail
+#   output/prompts/      your prompt history (useful for resume)
+#   output/*_handoff.md  session continuity
