@@ -26,11 +26,21 @@ What are you trying to do?
 ├─ Translate SAS code to Python
 │    └─ @sas-migrator — DATA/PROC/macros → pandas/statsmodels
 │
-├─ Excel or Power Query work
-│    ├─ Excel formulas / dynamic arrays / Power Pivot
+├─ Review Microsoft analytics work
+│    ├─ Excel formulas / dynamic arrays
 │    │    └─ @excel-reviewer
-│    └─ Power Query M code
-│         └─ @powerquery-reviewer — focuses on query folding
+│    ├─ Power Query M code (Excel or Power BI)
+│    │    └─ @powerquery-reviewer — focuses on query folding
+│    └─ DAX measures (Power Pivot or Power BI)
+│         └─ @dax-reviewer
+│
+├─ Tableau or Power BI work
+│    ├─ Inventory / governance / permissions
+│    │    └─ @tableau-auditor
+│    ├─ Performance issues in a workbook/report
+│    │    └─ @viz-optimizer
+│    └─ Migrating between Tableau and Power BI
+│         └─ @migration-mapper
 │
 ├─ Write up findings as a report
 │    └─ @report-drafter — markdown to output/reports/
@@ -61,9 +71,15 @@ What are you trying to do?
 - `@sas-migrator translate this PROC LOGISTIC block to Python`
 - `@sas-migrator port DATA step from legacy/customer_clean.sas`
 
-**Excel / Power Query:**
+**Excel / Power Query / DAX:**
 - `@excel-reviewer review the formulas in context/finance_model.xlsx`
-- `@powerquery-reviewer check folding for the Customers query`
+- `@powerquery-reviewer check folding for the Customers query in this PBIP`
+- `@dax-reviewer review the Sales measures in TMDL/Model.tmdl`
+
+**BI tools:**
+- `@tableau-auditor list workbooks not viewed in 90 days under the Finance project`
+- `@viz-optimizer why is this PBIX slow? performance.pbix`
+- `@migration-mapper plan the migration of the Sales Tableau workbook to Power BI`
 
 **Reports:**
 - `@report-drafter draft a Q1 revenue analysis from output/queries/q1_revenue.sql results`
@@ -94,6 +110,6 @@ NEXT ACTION: validate the join in q1_revenue.sql
 ## What NOT to do
 
 - **Don't ask `@report-drafter` to do analysis.** It writes up findings the orchestrator gives it. Run the analysis first.
-- **Don't dispatch two writers at the same target.** State-mutating agents must be sequential.
+- **Don't dispatch two writers at the same target.** State-mutating agents must be sequential. Currently only `@report-drafter` writes — but if you add custom write-scoped agents, never run them in parallel against the same file.
 - **Don't bypass `@solution-designer` for vague goals.** Jumping straight to a specialist with a fuzzy question wastes their narrow scope.
-- **Don't re-invoke an agent to "double-check."** Each agent returns a compressed summary — trust it. If you need verification, dispatch a different agent.
+- **Don't re-invoke an agent to "double-check."** Each agent returns a compressed summary — trust it. If you need verification, dispatch a different agent (e.g., `@query-validator` then `@data-profiler` on the result).

@@ -6,8 +6,8 @@ Show the user what's available:
   ~/.gemini/  (global — installed once, used in every project)
     GEMINI.md, PREFERENCES.md, settings.json
     commands/ (start, session/save, version, info)
-    agents/   (9 specialized subagents)
-    skills/   (3 domain skills: python, bigquery, excel)
+    agents/   (13 specialized subagents)
+    skills/   (7 domain skills: excel, python, bigquery, powerbi, 3× tableau)
 
   <project>/  (per-project — what's actually project-specific)
     CONTEXT.md  — project description (you write)
@@ -38,6 +38,10 @@ Subagents (invoke with @name — runs in an isolated context window):
     @sas-migrator        — SAS DATA/PROC/macros → Python
     @excel-reviewer      — Excel formulas, dynamic arrays, Power Pivot review
     @powerquery-reviewer — M language review (Excel + Power BI), query folding
+    @dax-reviewer        — DAX measure review
+    @tableau-auditor     — Tableau Server inventory, usage, permissions, extracts
+    @viz-optimizer       — TWBX/PBIP performance issues, ranked
+    @migration-mapper    — Tableau ↔ Power BI migration plan + effort
   Custom (write-scoped, sequential):
     @report-drafter      — writes markdown reports to output/reports/
 

@@ -1,10 +1,12 @@
 # Gemini CLI — Data Analyst Toolkit Guide
 
-A Gemini CLI setup for data analysts, engineers, and scientists. **9 specialized subagents**, smart session-resume, audit trail, versioning, and skills for Python / BigQuery / Excel.
+Built for data analysts working with SQL, SAS, Python, BigQuery, Excel, Power Query, Power BI, and Tableau. **13 specialized subagents**, **7 skills**, smart session-resume, query management, production safety — all modular.
 
 ## Setup
 
 ### 1. Global install (once per machine)
+
+See [README.md](README.md) for the full install menu (everything vs. bundles). Simplest:
 
 ```powershell
 Copy-Item -Recurse global\* "$env:USERPROFILE\.gemini\"
@@ -14,7 +16,9 @@ Copy-Item -Recurse global\* "$env:USERPROFILE\.gemini\"
 cp -r global/* ~/.gemini/
 ```
 
-Installs `GEMINI.md` (rules), `PREFERENCES.md`, `settings.json`, all 9 custom agents, 3 skills, custom slash commands.
+This installs everything: `GEMINI.md` (rules), `PREFERENCES.md`, `settings.json`, all 13 custom subagents, all 7 skills, custom slash commands.
+
+Pick a bundle (Core + Stats + Power BI etc.) if you don't want the whole set — see README.
 
 ### 2. Per-project setup
 
@@ -22,31 +26,33 @@ Installs `GEMINI.md` (rules), `PREFERENCES.md`, `settings.json`, all 9 custom ag
 Copy-Item -Recurse <kit-repo>\project-template\* .
 ```
 
-Then run `/start`.
+Then run `/start`. First time, scans the project, asks only what it can't infer, writes `CONTEXT.md`. After that, every `/start` resumes from your last session.
 
 ### 3. Updates
 
-Pull, copy `global/*` to `~/.gemini/` again. All projects updated.
+Pull, copy the installed parts to `~/.gemini/` again. All projects updated. Project files untouched.
 
 ## How it works
 
 ### `/start` — start or resume
 
-Identifies you from the working directory, snapshots files, and runs first-time setup OR resumes.
+Captures user identity, snapshots files, runs first-time setup OR resumes.
 
-**Returning session:** reads the most recent `output/<date>_handoff.md`. Promotes confirmed `## Proposed learnings` to `MEMORY.md`. Highlights stale `Active threads` (>30 days). Says *"Welcome back. Open threads: X. What are we working on?"*
+**Returning session:** reads the most recent `output/<date>_handoff.md`. Applies the recurrence gate: if a proposed learning appears in TWO consecutive handoffs, promotes to `MEMORY.md`. Highlights stale `Active threads` (>30 days).
+
+After a long gap, `/start` says: *"Welcome back. 3 open threads, one stale. 2 facts re-confirmed — promoting. What are we working on?"*
 
 ### Skills
 
-Auto-activate when your task matches.
+Auto-activate when your task matches. Install only what you actually use.
 
 ### Subagents
 
-Type `@` in chat — picker shows 9 custom + 3 built-ins. Each runs in isolated context. See [AGENTS.md](AGENTS.md) for the decision tree.
+Type `@` in chat — picker shows whichever agents you installed + 3 built-ins. Each runs in an isolated context. See [AGENTS.md](AGENTS.md) for the decision tree.
 
 ### Plan Mode
 
-On by default. Pro researches, Flash implements, you approve risky work. Trivial requests skip planning.
+On by default. Pro researches, Flash implements, you approve risky work. Also gates skill activation.
 
 ### File discipline
 
@@ -68,16 +74,14 @@ On by default. Pro researches, Flash implements, you approve risky work. Trivial
 
 Edit `CONTEXT.md` and run `/memory refresh` to apply mid-session.
 
-**Recurrence gate**: agent observes a maybe-fact → stages in handoff → next `/start` promotes if still valid. No fabricated learnings.
+**Recurrence gate**: agent stages in handoff → next session re-observes → `/start` promotes to `MEMORY.md`. Two consecutive handoffs = real recurrence. No self-judgment.
 
 ### Audit log
 
-Silent. Only state changes. Format:
+Silent. State changes only. Format:
 ```
 [YYYY-MM-DD HH:MM:SS] | <user> | <ACTION> | <target> | <result>
 ```
-
-Reads, list_directory, session boundaries NOT logged.
 
 ### Versioning
 
@@ -89,7 +93,7 @@ Per-session diff:
 - What changed
 - What failed (verbatim)
 - Open / unfinished
-- Proposed learnings (staged)
+- Proposed learnings (staged for recurrence gate)
 - Next session should…
 
 ## Commands
@@ -113,7 +117,8 @@ See [AGENTS.md](AGENTS.md).
 **Thinking:** `@solution-designer`
 **SQL / data:** `@query-validator`, `@schema-explorer`, `@data-profiler`
 **Stats / migration:** `@stats-advisor`, `@sas-migrator`
-**Excel / Power Query:** `@excel-reviewer`, `@powerquery-reviewer`
+**Excel / Power Query / DAX:** `@excel-reviewer`, `@powerquery-reviewer`, `@dax-reviewer`
+**BI tools:** `@tableau-auditor`, `@viz-optimizer`, `@migration-mapper`
 **Output:** `@report-drafter`
 
 ## Tips
@@ -123,6 +128,7 @@ See [AGENTS.md](AGENTS.md).
 - **`@solution-designer` first** for vague problems.
 - **Validate before billable executions.** `@query-validator` does dry-run cost checks.
 - **Don't fight versioning.** Iterate in place.
+- **Install only what you use.** Kit is modular.
 
 ## Sources
 
