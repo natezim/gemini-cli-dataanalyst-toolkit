@@ -59,11 +59,22 @@ Write ./output/<YYYY-MM-DD>_handoff.md:
 
 --- 5. WRAP-UP ---
 
-Run /memory show. If anything critical from this session isn't persisted, /memory add it.
+Persist durable project facts from this session by APPENDING to
+./.gemini/memory/MEMORY.md (you can write to this file directly).
 
-Ask ONE question, only if there's something obvious worth persisting beyond memory:
+Append one line per durable fact:
+  - [YYYY-MM-DD] <fact> — source: <session ref>
+
+Only durable, project-specific facts qualify (see MEMORY.md for what counts).
+If nothing durable came up, write nothing. Don't pad.
+
+Do NOT use /memory add or /memory show here — those are user-typed slash
+commands, not agent tools. You write to MEMORY.md as a regular file.
+
+Then ask ONE question, only if something obvious from this session
+deserves CONTEXT.md (architectural decision, new system added):
 "Anything to add to CONTEXT.md before we close?" If yes, run /context:update.
-If nothing obvious, skip this entirely.
+Otherwise skip entirely.
 
 (No SESSION-END audit entry — boundaries are not state changes.)
 

@@ -92,12 +92,28 @@ Specialized subagents live in `.gemini/agents/`. They run in isolated context wi
 ## Memory
 
 Four tiers, in order of permanence:
-1. `~/.gemini/GEMINI.md` — global, cross-project preferences (you edit this once)
+1. `~/.gemini/GEMINI.md` — global, cross-project preferences (user types `/memory add` for these)
 2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions and context
-3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts, written manually after recurrence evidence (don't autonomously edit)
+3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts (YOU append to this file directly)
 4. Session ephemeral — current context window
 
-Use `/memory add` for facts that should survive compression. Don't autonomously write to `MEMORY.md` — propose entries to the user, let them decide.
+**Persisting facts is your job, not the user's.** When you learn something durable about THIS project — a quirk, a convention, a gotcha, a recurring constraint — append a line to `./.gemini/memory/MEMORY.md`. Format:
+```
+- [YYYY-MM-DD] <fact> — source: <session or file ref>
+```
+
+What belongs in MEMORY.md:
+- Project-specific quirks ("orders.created_at is UTC but reports use ET")
+- Recurring user preferences ("user always wants p99 not p95")
+- Schema or system gotchas you discovered the hard way
+- Decisions made and the reasoning
+
+What does NOT belong:
+- One-off facts that won't matter next session
+- Anything you can re-derive cheaply from `context/`
+- Speculative observations — only durable facts with evidence
+
+The user can prune or edit MEMORY.md anytime. Don't ask permission to append — just do it, silently, when something durable comes up. The slash command `/memory add` is for the USER to type (writes to global `~/.gemini/GEMINI.md`); YOU don't invoke it.
 
 ## Task completion
 
