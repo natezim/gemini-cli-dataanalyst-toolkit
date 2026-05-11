@@ -12,12 +12,7 @@ credentials/
 output/data/
 output/audit-log.md
 output/*_handoff.md
-output/prompts/
 output/temp/
-
-# Local agent state — keep template, ignore developer-personal entries
-.gemini/memory/*
-!.gemini/memory/MEMORY.md
 
 # Dependencies
 node_modules/

@@ -1,0 +1,84 @@
+description = "End of session — versioning, MEMORY.md update, handoff diff with proposed learnings"
+prompt = """
+The session is ending. Run these steps in order. Silent unless a step truly needs input.
+
+--- 1. VERSIONING ---
+
+For files in ./output/code/, ./output/reports/, ./output/queries/ that EXISTED
+at session start AND were modified this session (mtime > session start):
+
+  Rotate snapshots:
+    - <name>_v3.<ext> exists → delete (oldest goes)
+    - <name>_v2.<ext> exists → rename to <name>_v3.<ext>
+    - <name>_v1.<ext> exists → rename to <name>_v2.<ext>
+  Then snapshot current: copy <name>.<ext> to <name>_v1.<ext>.
+
+Append ONE audit entry: `VERSION | <n> files | OK`.
+
+--- 2. WIPE TEMP ---
+
+Delete every file in ./output/temp/ (keep the folder). Silent.
+One audit entry: `DELETE | wiped <n> files from output/temp/ | OK`.
+
+(No cleanup-review prompt — files in code/, reports/, queries/, data/ are
+deliverables by rule. Throwaway work belongs in temp/, which just got wiped.)
+
+--- 3. UPDATE ./MEMORY.md ---
+
+Update `## Active threads`:
+- For any thread the user advanced this session: update its `Status`, `Files`,
+  `Next` fields and set "last touched" to today.
+- For new threads started this session: add an entry. Use the reasoning-first
+  format from GEMINI.md (Why → Status → Files → Next).
+- For threads explicitly completed: remove the entry.
+- Update stale markers.
+
+DO NOT touch `## Learned` here — that section is updated by /start via the
+recurrence gate. New durable-fact candidates go in the handoff's
+`## Proposed learnings` section (step 5).
+
+If MEMORY.md exceeds ~100 lines after these updates:
+- Silently archive (delete) entries that are: stale Active threads >60 days,
+  Learned facts >180 days that weren't referenced this session.
+
+--- 4. CHAT LOG ---
+
+(Skipped — Gemini CLI's built-in session retention already preserves the
+conversation. No custom chat log needed.)
+
+--- 5. HANDOFF DOC (per-session DIFF, not a snapshot) ---
+
+Write ./output/<YYYY-MM-DD>_handoff.md:
+
+  ## Handoff — <YYYY-MM-DD HH:MM>
+
+  ### What changed this session
+  - <one line per concrete change: file written, query run, decision made>
+
+  ### What failed or didn't work
+  - <preserve verbatim: errors, dead ends, things tried that didn't pan out>
+  - (If nothing failed, write "nothing notable" — but DO NOT smooth over real failures.)
+
+  ### Open / unfinished
+  - <pointer to Active threads in MEMORY.md that still have work>
+
+  ### Proposed learnings (staging — promoted to MEMORY.md by next /start if confirmed)
+  - <durable-fact candidate observed this session, format: `<fact> — evidence: <what made you notice it>`>
+
+  ### Next session should
+  - <one concrete first action for next time>
+
+Keep it tight — handoffs are diffs, not state. The current state lives in MEMORY.md.
+
+If today's handoff file already exists (multiple sessions in one day): append a new
+`## Handoff — HH:MM` block with the timestamped header.
+
+--- 6. WRAP-UP ---
+
+Don't prompt for CONTEXT.md updates — the user can `/memory refresh` after editing
+CONTEXT.md directly if they want. No /context:update command needed.
+
+(No SESSION-END audit entry.)
+
+Say: "Session closed."
+"""

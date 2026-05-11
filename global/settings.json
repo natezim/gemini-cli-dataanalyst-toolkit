@@ -2,11 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
   "general": {
     "checkpointing": { "enabled": true },
-    "sessionRetention": { "enabled": true, "maxAge": "7d", "maxCount": 10 },
-    "plan": { "enabled": true, "modelRouting": true }
+    "sessionRetention": { "enabled": true, "maxAge": "30d", "maxCount": 50 },
+    "plan": { "enabled": true }
   },
   "context": {
-    "fileName": ["GEMINI.md"],
+    "fileName": ["GEMINI.md", "CONTEXT.md", "MEMORY.md"],
     "includeDirectories": ["context"]
   },
   "model": { "compressionThreshold": 0.7 }

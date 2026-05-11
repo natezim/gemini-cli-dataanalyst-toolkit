@@ -1,0 +1,55 @@
+description = "Show available commands, agents, and how to use this workspace"
+prompt = """
+Show the user what's available:
+
+"Setup layout:
+  ~/.gemini/  (global — installed once, used in every project)
+    GEMINI.md, PREFERENCES.md, settings.json
+    commands/ (start, session/save, version, info)
+    agents/   (9 specialized subagents)
+    skills/   (3 domain skills: python, bigquery, excel)
+
+  <project>/  (per-project — what's actually project-specific)
+    CONTEXT.md  — project description (you write)
+    MEMORY.md   — Active threads + Learned (I append; you prune)
+    context/    — schemas, docs (READ-ONLY)
+    output/     — queries, code, reports, data, temp, audit-log, handoffs
+
+Commands:
+  /start                — start or resume a session (handles first-time setup too)
+  /session:save         — end session: versioning, MEMORY.md update, handoff diff
+  /version <file>       — manually snapshot a file as v1/v2/v3
+  /info                 — show this message
+  /memory add <fact>    — (built-in) persist a global fact in ~/.gemini/GEMINI.md
+  /memory refresh       — (built-in) re-read GEMINI.md/CONTEXT.md/MEMORY.md after edits
+  /restore              — (built-in) undo a file change
+
+Subagents (invoke with @name — runs in an isolated context window):
+  Built-in:
+    @generalist          — heavy work that would bloat the main context
+    @codebase_investigator — deep file/dependency tracing
+    @cli_help            — Gemini CLI questions
+  Custom (read-only, parallel-safe):
+    @solution-designer   — thinking partner: brainstorm, decompose, weigh tradeoffs
+    @query-validator     — SQL syntax + dry-run cost check before running
+    @schema-explorer     — schema Q&A from context/ without dumping DDL
+    @data-profiler       — shape/nulls/cardinality on a dataset (scripts in temp/)
+    @stats-advisor       — recommends statistical method, assumptions, library calls
+    @sas-migrator        — SAS DATA/PROC/macros → Python
+    @excel-reviewer      — Excel formulas, dynamic arrays, Power Pivot review
+    @powerquery-reviewer — M language review (Excel + Power BI), query folding
+  Custom (write-scoped, sequential):
+    @report-drafter      — writes markdown reports to output/reports/
+
+How memory works:
+  GEMINI.md      — global rules (~/.gemini/GEMINI.md)
+  CONTEXT.md     — project description, conventions (you write)
+  MEMORY.md      — Active threads + Learned (I append durable facts after the
+                   recurrence gate; learnings stage in handoff first, get
+                   promoted by next /start if they survive into another session)
+
+How it works at session end:
+  /session:save  — versions modified files, wipes temp/, updates MEMORY.md
+                   Active threads, writes a handoff DIFF (what changed, what
+                   failed, proposed learnings). No prompts about deliverables."
+"""

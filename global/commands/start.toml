@@ -1,0 +1,79 @@
+description = "Start or resume a session — captures user identity, reads handoff, promotes proposed learnings"
+prompt = """
+--- SESSION START (silent unless input is needed) ---
+
+1. Identify the user: parse the working directory path. Extract the username from
+   `C:\\Users\\<username>\\...` (Windows) or `/Users/<username>/...` or `/home/<username>/...`.
+   If unclear, fall back to %USERNAME% / $USER. Hold this in working state — every
+   audit log entry uses it.
+
+2. Snapshot file list (used by /session:save to detect modified files):
+   List files in ./output/code/, ./output/reports/, ./output/queries/ and hold in
+   working state. Transient — do NOT persist to /memory.
+
+3. If anything is left in ./output/temp/ from a prior crashed session, empty it.
+
+(No audit log entry for session start — boundaries are not state changes.)
+
+--- THEN check project state ---
+
+CONTEXT.md and MEMORY.md are auto-loaded by Gemini (configured in settings.json).
+You already have them in context.
+
+IF CONTEXT.md is empty or just placeholders → run FIRST-TIME SETUP below.
+OTHERWISE → run RETURNING SESSION below.
+
+--- FIRST-TIME SETUP ---
+
+This is a new project. Scan what exists:
+- Read every file in ./context/ (READ-ONLY)
+- Read ./.env.example for available connections (NEVER read .env)
+- Glance at root for project files (package.json, requirements.txt, etc.)
+
+Tell the user what you found in a short summary.
+
+Ask ONLY what you can't infer from the files. Skip the question if files make it
+clear. No forced minimum count.
+
+Write CONTEXT.md from what you found and answers. Use these sections:
+  # Project Context
+  <one-paragraph description>
+
+  ## Conventions
+  - <relevant project conventions>
+
+  ## Schemas / systems
+  - <key tables, APIs, files>
+
+Then run /info and ask: "What are we working on?"
+
+--- RETURNING SESSION ---
+
+CONTEXT.md and MEMORY.md are loaded. Now process the most recent handoff:
+
+1. Find the most recent ./output/<YYYY-MM-DD>_handoff.md.
+
+2. If the handoff has a `## Proposed learnings` section:
+   For each proposed learning:
+   - If it still applies (data/context confirms it) OR the user mentioned it
+     last session → promote to MEMORY.md `## Learned` as a normal entry.
+   - If it's contradicted or no longer relevant → drop silently.
+   - If unclear → leave staged in the handoff for one more session.
+
+3. Scan MEMORY.md `## Active threads`:
+   - Calculate days since "last touched" for each thread.
+   - Mark threads >30 days as `[STALE >30d]` if not already marked.
+
+4. Greet the user with a concise status:
+   - "Welcome back. Project: <one-line from CONTEXT.md>."
+   - "Open threads: <count>." For each, show name + last-touched + next action.
+     Highlight stale ones.
+   - If proposed learnings were promoted, mention briefly: "Promoted N learnings
+     to memory."
+   - "What are we working on?"
+
+If there's NO handoff yet (first session after FIRST-TIME SETUP), skip the handoff
+processing. Just show MEMORY.md state (if non-empty) and ask what to work on.
+
+End with: "Ready."
+"""

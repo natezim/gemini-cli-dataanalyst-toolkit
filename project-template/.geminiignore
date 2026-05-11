@@ -1,7 +1,6 @@
-# What Gemini should NOT see when scanning the project.
-# This file controls context auto-load and file visibility.
-# Anything listed here is invisible to Gemini — including files
-# Gemini itself created. So keep this list TIGHT.
+# What Gemini should NOT see when scanning this project.
+# Anything listed here is INVISIBLE to Gemini — including files Gemini created.
+# Keep this list TIGHT — everything Gemini produces in output/ stays visible.
 
 # Secrets and credentials — never expose to context
 .env
@@ -23,10 +22,10 @@ build/
 *.pyc
 *.class
 
-# Explicitly auto-wiped scratch — no value to Gemini after wipe
+# Auto-wiped scratch — no value to Gemini after wipe
 output/temp/
 
-# Large binary formats that aren't useful as text context
+# Large binary formats — not useful as text context
 *.zip
 *.tar.gz
 *.parquet
@@ -39,8 +38,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Prevent credentials from being dropped into context/
-# (Regular JSON schemas like info_schema dumps ARE visible — only credential files blocked)
+# Block credential files in context/ (but allow JSON schemas, info_schema dumps)
 context/*.env
 context/*.pem
 context/*.key
@@ -49,11 +47,10 @@ context/*secret*.json
 context/*service-account*.json
 context/*-key.json
 
-# Everything Gemini creates in output/ stays visible:
+# Everything Gemini creates in output/ stays VISIBLE:
 #   output/queries/      its own SQL library
 #   output/code/         its own scripts
 #   output/reports/      its own analyses
 #   output/data/         its own exports
 #   output/audit-log.md  its own write trail
-#   output/prompts/      your prompt history (useful for resume)
-#   output/*_handoff.md  session continuity
+#   output/*_handoff.md  session continuity (essential for resume)

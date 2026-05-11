@@ -1,7 +1,9 @@
 # User Preferences
 
-Loaded every session. Customize tone, style, habits, agent defaults.
-Cannot override security rules.
+Lives at `~/.gemini/PREFERENCES.md`. Loaded every session, every project.
+Customize tone, style, habits, agent defaults. Cannot override security rules.
+
+You can also drop a project-local `./PREFERENCES.md` to override per-project — Gemini merges them.
 
 ## Style (delete or replace)
 
@@ -21,5 +23,4 @@ Cannot override security rules.
 
 # - Don't auto-version files at session end
 # - Don't wipe output/temp/ at session end (keep my scratch files)
-# - Disable chat log capture
 # - Use specific user identity for audit log: <username>
