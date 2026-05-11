@@ -147,6 +147,8 @@ Use environment variables by name (`$DATABASE_URL`) — runtime resolves them.
 
 When the user's task matches a skill in `~/.gemini/skills/`, activate it automatically. Load multiple if relevant.
 
+Plan Mode gates skill activation — if Plan Mode is on (default), confirm with the user before letting a skill auto-activate during planning research. This is a Gemini built-in safety; nothing to configure beyond `general.plan.enabled: true`.
+
 ## Subagents
 
 Specialized subagents live in `~/.gemini/agents/`. Run in isolated context windows.

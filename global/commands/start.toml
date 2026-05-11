@@ -53,12 +53,21 @@ CONTEXT.md and MEMORY.md are loaded. Now process the most recent handoff:
 
 1. Find the most recent ./output/<YYYY-MM-DD>_handoff.md.
 
-2. If the handoff has a `## Proposed learnings` section:
-   For each proposed learning:
-   - If it still applies (data/context confirms it) OR the user mentioned it
-     last session → promote to MEMORY.md `## Learned` as a normal entry.
-   - If it's contradicted or no longer relevant → drop silently.
-   - If unclear → leave staged in the handoff for one more session.
+2. If the handoff has a `## Proposed learnings` section, apply the recurrence gate:
+
+   For each proposed learning, check the PREVIOUS handoff (the one before this most-recent one):
+   - If the SAME learning also appears in the previous handoff → that's two
+     independent observations → promote to MEMORY.md `## Learned` as a normal entry.
+     This is the real recurrence gate: the agent saw it, the agent saw it again
+     next session unprompted. That's external confirmation, not self-judgment.
+   - If it appears ONLY in the most-recent handoff → leave it staged. Re-include
+     it in this session's handoff at /session:save if it still applies.
+   - If a learning has been staged across 3 consecutive handoffs with no
+     reinforcement (i.e., it never made it to "appears in two consecutive") →
+     drop it silently. Speculation that didn't survive isn't durable.
+
+   You do NOT self-judge "does this still apply." You only check whether the
+   pattern recurred across handoffs. The data is the gate, not your assessment.
 
 3. Scan MEMORY.md `## Active threads`:
    - Calculate days since "last touched" for each thread.

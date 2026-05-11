@@ -62,8 +62,18 @@ Write ./output/<YYYY-MM-DD>_handoff.md:
   ### Open / unfinished
   - <pointer to Active threads in MEMORY.md that still have work>
 
-  ### Proposed learnings (staging — promoted to MEMORY.md by next /start if confirmed)
-  - <durable-fact candidate observed this session, format: `<fact> — evidence: <what made you notice it>`>
+  ### Proposed learnings (staging — recurrence gate)
+  - <durable-fact candidate observed this session, format: `<fact> — evidence: <what made you notice it> — staged: <1st | 2nd | 3rd time>`>
+
+  Recurrence gate rules:
+  - First time you notice a candidate: stage it here marked `staged: 1st time`.
+  - If a candidate you noticed in the LAST handoff appears AGAIN this session:
+    DO NOT re-list it here. Instead, /start will promote it to MEMORY.md on
+    the next session boot (two independent observations = real recurrence).
+  - If you observed a stale candidate from N-2 sessions ago but not N-1,
+    drop it — the pattern didn't sustain.
+  - You never "confirm" a candidate via your own judgment. Only the data
+    (re-observation across sessions) promotes it.
 
   ### Next session should
   - <one concrete first action for next time>
