@@ -59,22 +59,25 @@ Write ./output/<YYYY-MM-DD>_handoff.md:
 
 --- 5. WRAP-UP ---
 
-Persist durable project facts from this session by APPENDING to
-./.gemini/memory/MEMORY.md (you can write to this file directly).
+Persist durable project facts from this session by APPENDING to the
+`## Learned (auto)` section at the bottom of ./CONTEXT.md.
 
-Append one line per durable fact:
+Format, one line per fact:
   - [YYYY-MM-DD] <fact> — source: <session ref>
 
-Only durable, project-specific facts qualify (see MEMORY.md for what counts).
+Only durable, project-specific facts qualify:
+  - quirks, gotchas, recurring user preferences, decisions + reasoning
+Skip:
+  - one-off session details, anything re-derivable from context/,
+    speculative observations
+
 If nothing durable came up, write nothing. Don't pad.
 
-Do NOT use /memory add or /memory show here — those are user-typed slash
-commands, not agent tools. You write to MEMORY.md as a regular file.
+Do NOT use /memory add or /memory show — those are user-typed slash
+commands, not agent tools. You write to CONTEXT.md as a regular file.
 
-Then ask ONE question, only if something obvious from this session
-deserves CONTEXT.md (architectural decision, new system added):
-"Anything to add to CONTEXT.md before we close?" If yes, run /context:update.
-Otherwise skip entirely.
+That's it for this step. CONTEXT.md changes for major architectural
+shifts can still be made via /context:update if the user invokes it.
 
 (No SESSION-END audit entry — boundaries are not state changes.)
 

@@ -91,18 +91,17 @@ Specialized subagents live in `.gemini/agents/`. They run in isolated context wi
 
 ## Memory
 
-Four tiers, in order of permanence:
-1. `~/.gemini/GEMINI.md` — global, cross-project preferences (user types `/memory add` for these)
-2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions and context
-3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts (YOU append to this file directly)
-4. Session ephemeral — current context window
+Three tiers:
+1. `~/.gemini/GEMINI.md` — global, cross-project (user types `/memory add` for these)
+2. `./GEMINI.md` — team/project rules and conventions (this file — auto-loaded)
+3. `./CONTEXT.md` — project facts (auto-loaded via `@./CONTEXT.md` import above)
 
-**Persisting facts is your job, not the user's.** When you learn something durable about THIS project — a quirk, a convention, a gotcha, a recurring constraint — append a line to `./.gemini/memory/MEMORY.md`. Format:
+**Persisting durable facts is your job.** When you learn something durable about THIS project — a quirk, a convention, a gotcha, a recurring preference — APPEND a line to the `## Learned (auto)` section at the bottom of `./CONTEXT.md`. Format:
 ```
 - [YYYY-MM-DD] <fact> — source: <session or file ref>
 ```
 
-What belongs in MEMORY.md:
+What belongs:
 - Project-specific quirks ("orders.created_at is UTC but reports use ET")
 - Recurring user preferences ("user always wants p99 not p95")
 - Schema or system gotchas you discovered the hard way
@@ -113,7 +112,7 @@ What does NOT belong:
 - Anything you can re-derive cheaply from `context/`
 - Speculative observations — only durable facts with evidence
 
-The user can prune or edit MEMORY.md anytime. Don't ask permission to append — just do it, silently, when something durable comes up. The slash command `/memory add` is for the USER to type (writes to global `~/.gemini/GEMINI.md`); YOU don't invoke it.
+The user can prune or edit the Learned section anytime. Don't ask permission to append — just do it, silently, when something durable comes up. The slash command `/memory add` is for the USER to type (writes to global `~/.gemini/GEMINI.md`); YOU don't invoke it.
 
 ## Task completion
 

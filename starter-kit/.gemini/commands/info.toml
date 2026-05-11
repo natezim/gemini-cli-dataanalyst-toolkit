@@ -10,8 +10,8 @@ Commands:
   /session:save — end session: versioning, temp wipe, chat log, handoff
   /version <file> — manually snapshot a file as v1/v2/v3
   /context:update — add something permanent to project context
-  /memory add <fact> — persist a fact across sessions
-  /memory show — see persisted facts
+  /memory add <fact> — persist a global cross-project fact (you type; writes to ~/.gemini/GEMINI.md)
+  /memory show — see persisted global facts
   /restore — undo any file change
   /info — show this message
 
@@ -25,7 +25,7 @@ Workspace:
   output/prompts/ — your chat prompts saved at session end
   .gemini/skills/ — skills that activate automatically
   .gemini/agents/ — specialized subagents (run in isolated context)
-  .gemini/memory/MEMORY.md — project-private dynamic facts
+  CONTEXT.md ## Learned — Gemini auto-appends durable project facts here
   PREFERENCES.md — customize behavior (tone, workflow overrides)
   CONTEXT.md — your project context, built by /start
 
@@ -54,5 +54,6 @@ Skills (copy from the repo's skills/ folder into .gemini/skills/ — only instal
 How it works:
   I test before handing back. State changes (writes, exec, queries) are logged silently.
   I ask before risky work. I never touch production without explicit approval.
-  /restore (built-in) reverts any file change. /memory (built-in) persists facts."
+  /restore (built-in) reverts any file change. /memory add (you type) persists global facts.
+  I append durable project facts to CONTEXT.md's Learned section automatically."
 """

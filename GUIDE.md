@@ -30,11 +30,10 @@ Checkpointing is on. Use `/restore` to undo any file change.
 
 **Audit trail is automatic and silent.** Every state-changing action writes one line to `output/audit-log.md` with timestamp, user, action, target, and result. Reads, list_directory, and session boundaries are NOT logged.
 
-**Memory is 4-tier:**
-1. `~/.gemini/GEMINI.md` — global cross-project preferences
-2. `./GEMINI.md` + `./CONTEXT.md` — team/project conventions
-3. `./.gemini/memory/MEMORY.md` — project-private dynamic facts (manually curated)
-4. Session ephemeral
+**Memory is 3-tier:**
+1. `~/.gemini/GEMINI.md` — global cross-project (user types `/memory add`)
+2. `./GEMINI.md` — team/project rules
+3. `./CONTEXT.md` — project facts you wrote, plus a `## Learned (auto)` section the agent appends to as it discovers durable facts
 
 **Chat log captures your prompts** at session end. Substantive ones only — skips "yes", "ok", etc.
 
@@ -59,7 +58,6 @@ context/               Reference files — READ-ONLY, auto-loaded
                        /version, /info
   skills/              Skills that activate automatically
   agents/              9 subagents that activate via @name
-  memory/MEMORY.md     Project-private memory tier
 
 output/                Workspace — everything Gemini produces
   queries/             SQL query library — one .sql per query

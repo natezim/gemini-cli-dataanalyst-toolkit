@@ -16,7 +16,7 @@ Anyone doing data work with Gemini CLI who wants:
 - **Smart session management** — `/start` resumes where you left off, `/session:save` cleans up
 - **Plan Mode + model routing** — Pro for architecture, Flash for implementation
 - **Production safety** — read-only by default, `.env` never read, DDL needs explicit approval
-- **4-tier memory** — global, team-shared, project-private, ephemeral
+- **3-tier memory** — global (~/.gemini/GEMINI.md), team rules (./GEMINI.md), project context (./CONTEXT.md with agent-appended Learned section)
 - **Chat log capture** — your prompts saved at session end (your words, not Gemini's)
 
 Works for SQL analysts, Python data scientists, data engineers, ML engineers, SAS migrators, and anyone iterating on data with Gemini CLI.
@@ -51,7 +51,6 @@ context/               Reference files — READ-ONLY, auto-loaded
                        /version, /info
   skills/              Skill folders that activate automatically
   agents/              9 specialized subagents (invoke with @name)
-  memory/MEMORY.md     Project-private dynamic facts (tier 3)
 
 output/                Workspace — everything Gemini produces
   queries/             SQL query library — one .sql per query
