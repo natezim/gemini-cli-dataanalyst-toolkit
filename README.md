@@ -1,6 +1,6 @@
 # Gemini CLI — Data Analyst Toolkit
 
-A plug-and-play [Gemini CLI](https://github.com/google-gemini/gemini-cli) setup for data analysts, engineers, and scientists. **13 specialized subagents**, **7 domain skills** (Python, BigQuery, Excel, Power BI, Tableau Server / Optimizer / BigQuery integration), audit trail, smart session-resume, production safety.
+A plug-and-play [Gemini CLI](https://github.com/google-gemini/gemini-cli) setup for data analysts, engineers, and scientists. **14 specialized subagents**, **8 domain skills** (Python, BigQuery, Excel, Power BI, Tableau Server / Optimizer / BigQuery integration, Dataprep), audit trail, smart session-resume, production safety.
 
 > See the [full guide](GUIDE.md) for usage details and the [agent cheatsheet](AGENTS.md) for which subagent to invoke when.
 
@@ -84,8 +84,8 @@ Pull the latest from this repo, copy the parts you have installed into `~/.gemin
 
 Anyone doing data work with Gemini CLI who wants:
 
-- **13 specialized subagents** running in isolated context windows so heavy work doesn't bloat the main session
-- **7 domain skills** — Excel, Python, BigQuery, Power BI, Tableau (server / optimizer / BigQuery)
+- **14 specialized subagents** running in isolated context windows so heavy work doesn't bloat the main session
+- **8 domain skills** — Excel, Python, BigQuery, Power BI, Tableau (server / optimizer / BigQuery), Dataprep / Wrangle migration
 - **Audit trail** — every write, exec, and query logged with user identity
 - **Smart session resume** — come back in 2 months, `/start` highlights stale threads, agent picks up without re-explaining
 - **Controlled versioning** — auto-snapshots files at session end (max 3, rotating)
@@ -103,8 +103,8 @@ GEMINI.md              Global rules — file discipline, audit, security, etc.
 PREFERENCES.md         User preferences template
 settings.json          Checkpointing, Plan Mode, compression, file auto-load list
 commands/              /start, /session:save, /version, /info
-agents/                13 specialized subagents (pick which to install)
-skills/                7 domain skills (pick which to install)
+agents/                14 specialized subagents (pick which to install)
+skills/                8 domain skills (pick which to install)
 ```
 
 ### `project-template/` (copy into each new project)
@@ -124,7 +124,7 @@ output/                Workspace
   temp/                Throwaway test/debug — auto-wiped at session end
 ```
 
-## Subagents (13 total)
+## Subagents (14 total)
 
 Invoke explicitly with `@name`. Read-only agents are parallel-safe.
 See [AGENTS.md](AGENTS.md) for the decision tree.
@@ -137,6 +137,7 @@ See [AGENTS.md](AGENTS.md) for the decision tree.
 | `@data-profiler` | Shape, nulls, cardinality | read-only |
 | `@stats-advisor` | Statistical method + assumptions + library calls | read-only |
 | `@sas-migrator` | SAS DATA/PROC/macros → Python | read-only |
+| `@dataprep-migrator` | Dataprep/Trifacta Wrangle → pandas / PySpark / BigQuery SQL | read-only |
 | `@excel-reviewer` | Formulas, dynamic arrays, Power Pivot | read-only |
 | `@powerquery-reviewer` | M language review, query folding | read-only |
 | `@dax-reviewer` | DAX measure correctness + perf | read-only |
@@ -199,7 +200,7 @@ User identity is captured from the working directory path at session start. Read
 - Each subagent has an explicit `tools:` allowlist (least privilege)
 - `PREFERENCES.md` cannot override security rules
 
-## Skills (7 total)
+## Skills (8 total)
 
 | Skill | What it knows |
 |---|---|
@@ -210,6 +211,7 @@ User identity is captured from the working directory path at session start. Read
 | **tableau-server** | PostgreSQL repository, RMT, jobs, permissions, auditing |
 | **tableau-optimizer** | Dashboard performance, TWBX parsing, Power BI migration |
 | **tableau-bigquery** | SQL push-down, cost control, BI Engine, materialized views |
+| **dataprep** | Wrangle DSL operators, flow export structure, transpilation to pandas/PySpark/BigQuery SQL, type-mismatch risks, 4-tier validation, phased migration playbook |
 
 ## Platform
 

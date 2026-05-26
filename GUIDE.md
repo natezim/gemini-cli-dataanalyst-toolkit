@@ -1,6 +1,6 @@
 # Gemini CLI — Data Analyst Toolkit Guide
 
-Built for data analysts working with SQL, SAS, Python, BigQuery, Excel, Power Query, Power BI, and Tableau. **13 specialized subagents**, **7 skills**, smart session-resume, query management, production safety — all modular.
+Built for data analysts working with SQL, SAS, Python, BigQuery, Excel, Power Query, Power BI, and Tableau. **14 specialized subagents**, **8 skills**, smart session-resume, query management, production safety — all modular.
 
 ## Setup
 
@@ -16,7 +16,7 @@ Copy-Item -Recurse global\* "$env:USERPROFILE\.gemini\"
 cp -r global/* ~/.gemini/
 ```
 
-This installs everything: `GEMINI.md` (rules), `PREFERENCES.md`, `settings.json`, all 13 custom subagents, all 7 skills, custom slash commands.
+This installs everything: `GEMINI.md` (rules), `PREFERENCES.md`, `settings.json`, all 14 custom subagents, all 8 skills, custom slash commands.
 
 Pick a bundle (Core + Stats + Power BI etc.) if you don't want the whole set — see README.
 
@@ -116,7 +116,7 @@ See [AGENTS.md](AGENTS.md).
 
 **Thinking:** `@solution-designer`
 **SQL / data:** `@query-validator`, `@schema-explorer`, `@data-profiler`
-**Stats / migration:** `@stats-advisor`, `@sas-migrator`
+**Stats / migration:** `@stats-advisor`, `@sas-migrator`, `@dataprep-migrator`
 **Excel / Power Query / DAX:** `@excel-reviewer`, `@powerquery-reviewer`, `@dax-reviewer`
 **BI tools:** `@tableau-auditor`, `@viz-optimizer`, `@migration-mapper`
 **Output:** `@report-drafter`

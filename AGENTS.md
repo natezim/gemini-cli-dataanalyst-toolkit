@@ -26,6 +26,10 @@ What are you trying to do?
 ├─ Translate SAS code to Python
 │    └─ @sas-migrator — DATA/PROC/macros → pandas/statsmodels
 │
+├─ Migrate Dataprep / Trifacta Wrangle recipe
+│    └─ @dataprep-migrator — Wrangle → pandas / PySpark / BigQuery SQL
+│         (pair with the `dataprep` skill for full operator registry + risk areas)
+│
 ├─ Review Microsoft analytics work
 │    ├─ Excel formulas / dynamic arrays
 │    │    └─ @excel-reviewer
@@ -70,6 +74,11 @@ What are you trying to do?
 **SAS:**
 - `@sas-migrator translate this PROC LOGISTIC block to Python`
 - `@sas-migrator port DATA step from legacy/customer_clean.sas`
+
+**Dataprep / Wrangle:**
+- `@dataprep-migrator translate this Wrangle recipe to BigQuery SQL`
+- `@dataprep-migrator convert the flow at context/flow-1432.zip to PySpark`
+- `@dataprep-migrator review recipes/ and produce a translation plan`
 
 **Excel / Power Query / DAX:**
 - `@excel-reviewer review the formulas in context/finance_model.xlsx`
