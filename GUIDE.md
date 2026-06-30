@@ -2,6 +2,11 @@
 
 Built for data analysts working with SQL, SAS, Python, BigQuery, Excel, Power Query, Power BI, and Tableau. **14 specialized subagents**, **8 skills**, smart session-resume, query management, production safety — all modular.
 
+## Prerequisites
+
+- Gemini CLI installed.
+- **Git is optional.** The kit defaults to checkpointing OFF so it works on machines without git. Without checkpointing, Gemini's `/restore` doesn't work — but `/session:save` versions modified files (`_v1`/`_v2`/`_v3`), which covers most undo cases. To enable `/restore`, install git and flip `general.checkpointing.enabled` to `true` in `~/.gemini/settings.json`.
+
 ## Setup
 
 ### 1. Global install (once per machine)
@@ -106,7 +111,7 @@ Per-session diff:
 | `/info` | Show available commands, agents, layout |
 | `/memory add <fact>` | (built-in) Global fact → `~/.gemini/GEMINI.md` |
 | `/memory refresh` | (built-in) Re-load files after editing |
-| `/restore` | (built-in) Undo a file change |
+| `/restore` | (built-in) Undo a file change — *requires checkpointing on (off by default; needs git)* |
 | `@<agent>` | Invoke a specialized subagent |
 | `@./file` | Inject any file mid-session |
 

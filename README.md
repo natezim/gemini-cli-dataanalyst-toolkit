@@ -4,6 +4,16 @@ A plug-and-play [Gemini CLI](https://github.com/google-gemini/gemini-cli) setup 
 
 > See the [full guide](GUIDE.md) for usage details and the [agent cheatsheet](AGENTS.md) for which subagent to invoke when.
 
+## Prerequisites
+
+- **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** installed
+- **Git** (optional) — only required if you want Gemini's built-in `/restore` (file-change undo via checkpointing). The kit ships with checkpointing **disabled by default** so it works without git. Our `/session:save` versioning (`_v1`/`_v2`/`_v3`) covers the common undo cases without needing git.
+
+To enable checkpointing later (requires git):
+```
+edit ~/.gemini/settings.json → general.checkpointing.enabled = true
+```
+
 ## Install — two folders, two destinations
 
 The kit ships as two folders that go to different places:
@@ -158,7 +168,7 @@ Built-ins: `@generalist`, `@codebase_investigator`, `@cli_help`.
 | `/info` | Show available commands, agents, layout |
 | `/memory add <fact>` | (built-in) Persist a global fact in `~/.gemini/GEMINI.md` |
 | `/memory refresh` | (built-in) Re-read GEMINI/CONTEXT/MEMORY after editing |
-| `/restore` | (built-in) Undo a file change |
+| `/restore` | (built-in) Undo a file change — *requires checkpointing enabled (off by default; needs git)* |
 | `@<agent>` | Invoke a specialized subagent |
 
 ## How session resume works

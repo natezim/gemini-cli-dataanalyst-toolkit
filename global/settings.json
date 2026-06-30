@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
   "general": {
-    "checkpointing": { "enabled": true },
+    "checkpointing": { "enabled": false },
     "sessionRetention": { "enabled": true, "maxAge": "30d", "maxCount": 50 },
     "plan": { "enabled": true }
   },
